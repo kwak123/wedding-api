@@ -14,7 +14,9 @@ services:
       # DATABASE_URL: postgres://statustician:statustician@0.tcp.ngrok.io:11433/statustician
       # --
       # Local
-      DATABASE_URL: mongodb://mongo:27017
+      DB_URL: mongodb://mongo:27017
+      DB_USER: kwakanalia
+      DB_PASSWORD: elycheea
     depends_on:
       - mongo
       - redis
