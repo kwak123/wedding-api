@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  api:
+    build: .
+    command: npm run dev
+    # env_file: ./slack/.env
+    ports:
+      - "3001:8080"
+    volumes:
+      - ./:/app
+    environment:
+      # Sam's laptop
+      # DATABASE_URL: postgres://statustician:statustician@0.tcp.ngrok.io:11433/statustician
+      # --
+      # Local
+      DATABASE_URL: mongodb://mongo:27017
+    depends_on:
+      - mongo
+      - redis
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=kwakanalia
+      - MONGO_INITDB_ROOT_USERNAME=kwakanalia
+      - MONGO_INITDB_ROOT_PASSWORD=elycheea
+    ports:
+      - "27017-27019:27017-27019"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
