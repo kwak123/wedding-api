@@ -1,4 +1,11 @@
-import mongoose from "mongoose"
+import mongoose, { Document } from "mongoose"
+
+export interface WeddingGuest extends Document {
+  name: string
+  plusOneId: string
+  email: string
+  confirmed: boolean
+}
 
 const guestSchema = new mongoose.Schema({
   name: {
