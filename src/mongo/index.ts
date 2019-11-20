@@ -17,6 +17,11 @@ class MongoDb {
     return savedGuest
   }
 
+  getAllGuests = async () => {
+    const allGuests = await Guest.find()
+    return allGuests
+  }
+
   getGuest = async (email: string) => {
     const guest = await Guest.findOne({ email })
     return guest

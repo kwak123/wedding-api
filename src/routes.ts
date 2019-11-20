@@ -26,6 +26,16 @@ guestRouter.post("/add", async (req, res) => {
   }
 })
 
+guestRouter.get("/get/all", async (req, res) => {
+  try {
+    const allGuests = await MongoDb.getAllGuests()
+    return res.send(allGuests)
+  } catch (e) {
+    console.error(e)
+    return res.sendStatus(500)
+  }
+})
+
 // Send email to guest
 
 const emailRouter = Router()
