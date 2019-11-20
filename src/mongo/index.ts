@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
-import Guest, { WeddingGuest } from "./schemas/Guest"
+import { WeddingGuest } from "./schemas/Guest"
+import { Guest } from "./client"
 
 class MongoDb {
   /**
@@ -11,10 +12,25 @@ class MongoDb {
       throw `Guest with email ${guest.email} already exists!`
     }
 
-    const newGuest = new Guest(guest)
+    const newGuest = await Guest.create(guest)
     const savedGuest = (await newGuest.save()) as WeddingGuest
     return savedGuest
   }
+
+  getGuest = async (email: string) => {
+    const guest = await Guest.findOne({ email })
+    return guest
+  }
+
+  /**
+   * Give an email, returns true if able to delete
+   */
+  removeGuest = async (email: string) => {
+    const deletedCount = await Guest.deleteOne({ email })
+    return deletedCount > 0
+  }
 }
 
-export default MongoDb
+const instance = new MongoDb()
+
+export default instance
