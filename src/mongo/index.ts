@@ -22,6 +22,11 @@ class MongoDb {
     return allGuests
   }
 
+  getConfirmedGuests = async () => {
+    const confirmedGuests = await Guest.find({ confirmed: true })
+    return confirmedGuests
+  }
+
   getGuest = async (email: string) => {
     const guest = await Guest.findOne({ email })
     return guest

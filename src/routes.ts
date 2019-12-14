@@ -7,6 +7,11 @@ const router = Router()
 const stubHandler = (req: Request, res: Response) =>
   res.send("Received the route!")
 
+const handleError = (e: Error, res: Response) => {
+  console.error(e)
+  return res.sendStatus(500)
+}
+
 router.post("/guest", (req, res) => {
   res.send("Received the route!")
 })
@@ -21,8 +26,7 @@ guestRouter.post("/add", async (req, res) => {
     const guest = await MongoDb.addGuest(weddingGuest)
     return res.send(guest)
   } catch (e) {
-    console.error(e)
-    return res.sendStatus(500)
+    handleError(e, res)
   }
 })
 
@@ -31,8 +35,16 @@ guestRouter.get("/get/all", async (req, res) => {
     const allGuests = await MongoDb.getAllGuests()
     return res.send(allGuests)
   } catch (e) {
-    console.error(e)
-    return res.sendStatus(500)
+    handleError(e, res)
+  }
+})
+
+guestRouter.get("/get/confirmed", async (req, res) => {
+  try {
+    const confirmedGuests = await MongoDb.getConfirmedGuests()
+    return res.send(confirmedGuests)
+  } catch (e) {
+    handleError(e, res)
   }
 })
 
