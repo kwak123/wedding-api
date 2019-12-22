@@ -27,6 +27,7 @@
     "@types/jest": "^24.0.18",
     "@types/mongoose": "^5.5.22",
     "@types/redis": "^2.8.14",
+    "babel-polyfill": "^6.26.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
