@@ -5,7 +5,7 @@ import "babel-polyfill"
 // import { Api } from "./api";
 import { useFetch } from "./utils/index"
 
-import GuestList from "./GuestList"
+import GuestList from "./components/guestList"
 
 const App = () => {
   const { fetching, error, data = [] } = useFetch("/api/guest/get/all")
@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Hello World!</h1>
+      <h1>Guests</h1>
       <GuestList guestList={data} />
     </div>
   )

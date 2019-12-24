@@ -1,0 +1,17 @@
+.guest-card__container {
+  padding: 8px 16px;
+  box-shadow: #dedede 1px 1px 4px 2px;
+  margin-bottom: 16px;
+}
+
+.guest-name {
+  font-size: 24px;
+}
+
+.guest-confirmed {
+  color: green;
+}
+
+.guest-not-confirmed {
+  color: red;
+}
