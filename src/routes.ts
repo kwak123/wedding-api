@@ -57,6 +57,7 @@ const mailgunClient = new Mailgun(process.env.MG_API_KEY)
 emailRouter.post("/test", async (req, res) => {
   const emailOptions = req.body as EmailOptions
   try {
+    console.log(req.body)
     await mailgunClient.sendEmail(emailOptions)
     res.sendStatus(200)
   } catch (e) {

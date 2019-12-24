@@ -15,7 +15,7 @@ interface Action {
 const initialState = {
   fetching: false,
   error: false,
-  data: {},
+  data: [],
 }
 
 const reducer = (state: FetchState, action: Action) => {
