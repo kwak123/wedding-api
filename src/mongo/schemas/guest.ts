@@ -5,6 +5,7 @@ export interface WeddingGuest extends Document {
   plusOneId: string
   email: string
   confirmed: boolean
+  dietaryRestrictions: string[]
 }
 
 const guestSchema = new mongoose.Schema({
@@ -20,6 +21,10 @@ const guestSchema = new mongoose.Schema({
   confirmed: {
     type: Boolean,
     default: false,
+  },
+  dietaryRestrictions: {
+    type: Array,
+    default: [],
   },
 })
 

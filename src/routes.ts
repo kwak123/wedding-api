@@ -20,7 +20,6 @@ const guestRouter = Router()
 
 guestRouter.post("/add", async (req, res) => {
   const weddingGuest = req.body
-  console.log(weddingGuest)
 
   try {
     const guest = await MongoDb.addGuest(weddingGuest)
