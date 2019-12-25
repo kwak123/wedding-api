@@ -38,6 +38,15 @@ guestRouter.get("/get/all", async (req, res) => {
   }
 })
 
+guestRouter.get("/get/:guestEmail", async (req, res) => {
+  try {
+    const guest = await MongoDb.getGuest(req.params.guestEmail)
+    return res.send(guest)
+  } catch (e) {
+    handleError(e, res)
+  }
+})
+
 guestRouter.get("/get/confirmed", async (req, res) => {
   try {
     const confirmedGuests = await MongoDb.getConfirmedGuests()
