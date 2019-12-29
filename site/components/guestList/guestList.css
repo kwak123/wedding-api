@@ -1,8 +1,9 @@
 .guest-card__container {
   display: flex;
+  justify-content: space-between;
   padding: 8px 16px;
   margin-bottom: 16px;
-  max-width: 480px;
+  max-width: 900px;
   box-shadow: #dedede 1px 1px 4px 2px;
 }
 
@@ -16,4 +17,9 @@
 
 .guest-not-confirmed {
   color: red;
+}
+
+.guest-actions__container {
+  display: flex;
+  flex-direction: column;
 }

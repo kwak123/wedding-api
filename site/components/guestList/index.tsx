@@ -1,5 +1,7 @@
 import * as React from "react"
 
+import Button from "../common/Button"
+
 import "./guestList.css"
 
 interface Guest {
@@ -21,6 +23,14 @@ const GuestConfirmed = ({ confirmed }: { confirmed: boolean }) => (
   </p>
 )
 
+const GuestActions = () => (
+  <div className="guest-actions__container">
+    <Button onClick={() => {}} text={"Send RSVP"} />
+    <Button onClick={() => {}} text={"Attach plus-one"} />
+    <Button onClick={() => {}} text={"Confirm/Unconfirm"} />
+  </div>
+)
+
 const GuestCard = ({ guest }: GuestProps) => {
   return (
     <div className="guest-card__container">
@@ -40,6 +50,7 @@ const GuestCard = ({ guest }: GuestProps) => {
           ))}
         </ul>
       </div>
+      <GuestActions />
     </div>
   )
 }
