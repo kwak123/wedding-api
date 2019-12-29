@@ -15,17 +15,21 @@ interface GuestProps {
   guest: Guest
 }
 
+const GuestConfirmed = ({ confirmed }: { confirmed: boolean }) => (
+  <p className={confirmed ? "guest-confirmed" : "guest-not-confirmed"}>
+    {confirmed ? "Confirmed" : "Not confirmed"}
+  </p>
+)
+
 const GuestCard = ({ guest }: GuestProps) => {
   return (
     <div className="guest-card__container">
-      <p className="guest-name">{guest.name}</p>
-      <p className="guest-email">Email: {guest.email}</p>
-      <p className="guest-plus-one">Plus One: {guest.plusOneId}</p>
-      <p
-        className={guest.confirmed ? "guest-confirmed" : "guest-not-confirmed"}
-      >
-        {guest.confirmed ? "Confirmed" : "Not confirmed"}
-      </p>
+      <div className="guest-details__container">
+        <p className="guest-name">{guest.name}</p>
+        <p className="guest-email">Email: {guest.email}</p>
+        <p className="guest-plus-one">Plus One: {guest.plusOneId}</p>
+        <GuestConfirmed confirmed={guest.confirmed} />
+      </div>
       <div className="guest-restrictions__container">
         <h3 className="guest-restrictions__header">Dietary Restrictions</h3>
         <ul>
