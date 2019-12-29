@@ -1,60 +1,17 @@
 import { Router, Application, Request, Response } from "express"
 import { Mailgun, EmailOptions } from "./mailgun"
+
+import { buildGuestRouter } from "./routers/guest"
+
 import MongoDb from "./mongo"
 
 const router = Router()
-
-const stubHandler = (req: Request, res: Response) =>
-  res.send("Received the route!")
-
-const handleError = (e: Error, res: Response) => {
-  console.error(e)
-  return res.sendStatus(500)
-}
 
 router.post("/guest", (req, res) => {
   res.send("Received the route!")
 })
 
-const guestRouter = Router()
-
-guestRouter.post("/add", async (req, res) => {
-  const weddingGuest = req.body
-
-  try {
-    const guest = await MongoDb.addGuest(weddingGuest)
-    return res.send(guest)
-  } catch (e) {
-    handleError(e, res)
-  }
-})
-
-guestRouter.get("/get/all", async (req, res) => {
-  try {
-    const allGuests = await MongoDb.getAllGuests()
-    return res.send(allGuests)
-  } catch (e) {
-    handleError(e, res)
-  }
-})
-
-guestRouter.get("/get/:guestEmail", async (req, res) => {
-  try {
-    const guest = await MongoDb.getGuest(req.params.guestEmail)
-    return res.send(guest)
-  } catch (e) {
-    handleError(e, res)
-  }
-})
-
-guestRouter.get("/get/confirmed", async (req, res) => {
-  try {
-    const confirmedGuests = await MongoDb.getConfirmedGuests()
-    return res.send(confirmedGuests)
-  } catch (e) {
-    handleError(e, res)
-  }
-})
+const guestRouter = buildGuestRouter(MongoDb)
 
 // Send email to guest
 

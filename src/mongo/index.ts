@@ -2,7 +2,15 @@ import mongoose from "mongoose"
 import { WeddingGuest } from "./schemas/Guest"
 import { Guest } from "./client"
 
-class MongoDb {
+export interface MongoDbHelper {
+  addGuest: (guest: WeddingGuest) => Promise<WeddingGuest>
+  getAllGuests: () => Promise<WeddingGuest[]>
+  getConfirmedGuests: () => Promise<WeddingGuest[]>
+  getGuest: (email: string) => Promise<WeddingGuest>
+  removeGuest: (email: string) => Promise<boolean>
+}
+
+class MongoDb implements MongoDbHelper {
   /**
    * Receive JS Object of wedding guest, hands back the MongoDB Variant
    */
@@ -19,17 +27,17 @@ class MongoDb {
 
   getAllGuests = async () => {
     const allGuests = await Guest.find()
-    return allGuests
+    return allGuests as WeddingGuest[]
   }
 
   getConfirmedGuests = async () => {
     const confirmedGuests = await Guest.find({ confirmed: true })
-    return confirmedGuests
+    return confirmedGuests as WeddingGuest[]
   }
 
   getGuest = async (email: string) => {
     const guest = await Guest.findOne({ email })
-    return guest
+    return guest as WeddingGuest
   }
 
   /**
