@@ -1,18 +1,11 @@
 import * as React from "react"
 
+import GuestContextProvider, { GuestContext } from "../../contexts/guests"
 import Button from "../common/Button"
 
 import "./guestList.css"
 import Axios from "axios"
-
-interface Guest {
-  _id: string
-  name: string
-  plusOneId: string
-  email: string
-  confirmed: boolean
-  dietaryRestrictions: string[]
-}
+import { Guest } from "../../contexts/guests"
 
 interface GuestProps {
   guest: Guest
@@ -28,11 +21,22 @@ const GuestActions = ({ email }) => {
   const dispatchToggleConfirm = () => Axios.put(`/api/guest/confirm/${email}`)
 
   return (
-    <div className="guest-actions__container">
-      <Button onClick={() => {}} text={"Send RSVP"} />
-      <Button onClick={() => {}} text={"Attach plus-one"} />
-      <Button onClick={dispatchToggleConfirm} text={"Confirm/Unconfirm"} />
-    </div>
+    <GuestContext.Consumer>
+      {({ refreshGuestList }) => {
+        const handleTogglingConfirm = () =>
+          dispatchToggleConfirm().then(() => refreshGuestList())
+        return (
+          <div className="guest-actions__container">
+            <Button onClick={() => {}} text={"Send RSVP"} />
+            <Button onClick={() => {}} text={"Attach plus-one"} />
+            <Button
+              onClick={handleTogglingConfirm}
+              text={"Confirm/Unconfirm"}
+            />
+          </div>
+        )
+      }}
+    </GuestContext.Consumer>
   )
 }
 
@@ -64,13 +68,24 @@ interface GuestListProps {
   guestList: Guest[]
 }
 
-const GuestList = ({ guestList = [] }: GuestListProps) => {
+const GuestList = () => {
   return (
-    <div className="guest-list__container">
-      {guestList.map(guest => (
-        <GuestCard guest={guest} key={guest._id} />
-      ))}
-    </div>
+    <GuestContextProvider>
+      <GuestContext.Consumer>
+        {props => {
+          const { guestList } = props
+          console.log(props)
+
+          return (
+            <div className="guest-list__container">
+              {guestList.map(guest => (
+                <GuestCard key={guest._id} guest={guest} />
+              ))}
+            </div>
+          )
+        }}
+      </GuestContext.Consumer>
+    </GuestContextProvider>
   )
 }
 
