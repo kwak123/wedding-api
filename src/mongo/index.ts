@@ -27,7 +27,7 @@ class MongoDb implements MongoDbHelper {
   }
 
   getAllGuests = async () => {
-    const allGuests = await Guest.find()
+    const allGuests = await Guest.find().populate("plusOneId")
     return allGuests as WeddingGuest[]
   }
 

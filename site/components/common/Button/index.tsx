@@ -1,4 +1,5 @@
 import * as React from "react"
+import Button from "@material-ui/core/Button"
 
 import "./button.css"
 
@@ -7,12 +8,12 @@ export interface ButtonProps {
   text: string
 }
 
-const Button = ({ onClick, text }: ButtonProps) => {
+const KwakButton = ({ onClick, text }: ButtonProps) => {
   return (
-    <button className="common-button" onClick={onClick}>
+    <Button className="common-button" variant="contained" onClick={onClick}>
       {text}
-    </button>
+    </Button>
   )
 }
 
-export default Button
+export default KwakButton

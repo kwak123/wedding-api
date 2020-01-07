@@ -28,6 +28,12 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
+  guestRouter.put("/link/:plusOneId", async (req, res) => {
+    const { plusOneId } = req.body
+
+    return res.send("yes")
+  })
+
   guestRouter.get("/get/all", async (req, res) => {
     try {
       const allGuests = await mongoDb.getAllGuests()

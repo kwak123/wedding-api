@@ -1,5 +1,7 @@
 import mongoose, { Document } from "mongoose"
 
+export const GUEST_SCHEMA_NAME = "Guest"
+
 export interface WeddingGuest extends Document {
   name: string
   plusOneId: string
@@ -13,7 +15,11 @@ const guestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  plusOneId: String,
+  plusOneId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: GUEST_SCHEMA_NAME,
+    required: false,
+  },
   email: {
     type: String,
     required: true,

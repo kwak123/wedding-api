@@ -3,7 +3,7 @@ import * as React from "react"
 import GuestContextProvider, { GuestContext } from "../../contexts/guests"
 import Button from "../common/Button"
 
-import "./guestList.css"
+import "./guestList.scss"
 import Axios from "axios"
 import { Guest } from "../../contexts/guests"
 
@@ -46,7 +46,9 @@ const GuestCard = ({ guest }: GuestProps) => {
       <div className="guest-details__container">
         <p className="guest-name">{guest.name}</p>
         <p className="guest-email">Email: {guest.email}</p>
-        <p className="guest-plus-one">Plus One: {guest.plusOneId}</p>
+        <p className="guest-plus-one">
+          Plus One: {guest.plusOneId && guest.plusOneId.name}
+        </p>
         <GuestConfirmed confirmed={guest.confirmed} />
       </div>
       <div className="guest-restrictions__container">

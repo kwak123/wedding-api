@@ -4,7 +4,7 @@ import Api from "../api"
 export interface Guest {
   _id: string
   name: string
-  plusOneId: string
+  plusOneId: Guest
   email: string
   confirmed: boolean
   dietaryRestrictions: string[]
