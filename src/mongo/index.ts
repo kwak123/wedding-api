@@ -7,6 +7,10 @@ export interface MongoDbHelper {
   getAllGuests: () => Promise<WeddingGuest[]>
   getConfirmedGuests: () => Promise<WeddingGuest[]>
   getGuest: (email: string) => Promise<WeddingGuest>
+  linkPlusOne: (
+    guestEmail: string,
+    plusOneEmail: string
+  ) => Promise<WeddingGuest>
   removeGuest: (email: string) => Promise<boolean>
   toggleGuestConfirmation: (email: string) => Promise<WeddingGuest>
 }
@@ -39,6 +43,16 @@ class MongoDb implements MongoDbHelper {
   getGuest = async (email: string) => {
     const guest = await Guest.findOne({ email })
     return guest as WeddingGuest
+  }
+
+  linkPlusOne = async (guestEmail: string, plusOneEmail: string) => {
+    const guest = await this.getGuest(guestEmail)
+    const plusOne = await this.getGuest(plusOneEmail)
+    guest.plusOneId = plusOne._id
+    plusOne.plusOneId = guest._id
+    await plusOne.save()
+    const savedGuest = (await guest.save()) as WeddingGuest
+    return savedGuest
   }
 
   toggleGuestConfirmation = async (email: string) => {

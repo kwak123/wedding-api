@@ -28,8 +28,15 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
-  guestRouter.put("/link/:plusOneId", async (req, res) => {
-    const { plusOneId } = req.body
+  guestRouter.post("/link/", async (req, res) => {
+    const { guestEmail, plusOneEmail } = req.body
+
+    try {
+      const guest = await mongoDb.linkPlusOne(guestEmail, plusOneEmail)
+      return res.send(guest)
+    } catch (e) {
+      handleError(e, res)
+    }
 
     return res.send("yes")
   })
