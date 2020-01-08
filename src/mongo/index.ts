@@ -48,6 +48,15 @@ class MongoDb implements MongoDbHelper {
   linkPlusOne = async (guestEmail: string, plusOneEmail: string) => {
     const guest = await this.getGuest(guestEmail)
     const plusOne = await this.getGuest(plusOneEmail)
+
+    if (guest.plusOneId) {
+      throw "Guest already has a plus one"
+    }
+
+    if (plusOne.plusOneId) {
+      throw "Plus one already has a plus one"
+    }
+
     guest.plusOneId = plusOne._id
     plusOne.plusOneId = guest._id
     await plusOne.save()

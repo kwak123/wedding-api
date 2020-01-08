@@ -137,7 +137,7 @@ const GuestActions = ({ email }) => {
 
 const GuestCard = ({ guest }: GuestProps) => {
   return (
-    <div className="guest-card__container">
+    <Card className="guest-card__container" raised={true}>
       <div className="guest-details__container">
         <p className="guest-name">{guest.name}</p>
         <p className="guest-email">Email: {guest.email}</p>
@@ -157,7 +157,7 @@ const GuestCard = ({ guest }: GuestProps) => {
         </ul>
       </div>
       <GuestActions email={guest.email} />
-    </div>
+    </Card>
   )
 }
 
