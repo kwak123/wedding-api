@@ -13,6 +13,7 @@ export interface MongoDbHelper {
   ) => Promise<WeddingGuest>
   removeGuest: (email: string) => Promise<boolean>
   toggleGuestConfirmation: (email: string) => Promise<WeddingGuest>
+  confirmGuest: (email: string) => Promise<WeddingGuest>
 }
 
 class MongoDb implements MongoDbHelper {
@@ -59,6 +60,7 @@ class MongoDb implements MongoDbHelper {
 
     guest.plusOneId = plusOne._id
     plusOne.plusOneId = guest._id
+
     await plusOne.save()
     const savedGuest = (await guest.save()) as WeddingGuest
     return savedGuest
@@ -67,6 +69,13 @@ class MongoDb implements MongoDbHelper {
   toggleGuestConfirmation = async (email: string) => {
     const guest = (await Guest.findOne({ email })) as WeddingGuest
     guest.confirmed = !guest.confirmed
+    const savedGuest = (await guest.save()) as WeddingGuest
+    return savedGuest
+  }
+
+  confirmGuest = async (email: string) => {
+    const guest = (await Guest.findOne({ email })) as WeddingGuest
+    guest.confirmed = true
     const savedGuest = (await guest.save()) as WeddingGuest
     return savedGuest
   }

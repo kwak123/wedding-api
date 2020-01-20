@@ -17,11 +17,11 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
-  guestRouter.put("/confirm/:guestEmail", async (req, res) => {
-    const { guestEmail } = req.params
+  guestRouter.put("/confirm", async (req, res) => {
+    const { guestEmail } = req.body
 
     try {
-      const guest = await mongoDb.toggleGuestConfirmation(guestEmail)
+      const guest = await mongoDb.confirmGuest(guestEmail)
       return res.send(guest)
     } catch (e) {
       handleError(e, res)

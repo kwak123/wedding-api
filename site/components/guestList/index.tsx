@@ -63,10 +63,14 @@ const PlusOneDialog = ({ open, handleClose }) => {
 }
 
 const GuestActions = ({ email }) => {
+  const { refreshGuestList } = React.useContext(GuestContext)
   const [showDialog, setShowDialog] = React.useState(false)
   const [showErrorToast, setShowErrorToast] = React.useState(false)
 
-  const dispatchToggleConfirm = () => Axios.put(`/api/guest/confirm/${email}`)
+  const dispatchToggleConfirm = () =>
+    Axios.put("/api/guest/confirm/", {
+      guestEmail: email,
+    })
 
   const handleLinkEmail = plusOneEmail => {
     if (!plusOneEmail) {
@@ -91,47 +95,35 @@ const GuestActions = ({ email }) => {
     setShowErrorToast(false)
   }
 
+  const handleTogglingConfirm = () =>
+    dispatchToggleConfirm().then(() => refreshGuestList())
+
+  const handleLink = plusOneEmail =>
+    handleLinkEmail(plusOneEmail).then(() => refreshGuestList())
+
   return (
-    <GuestContext.Consumer>
-      {({ refreshGuestList }) => {
-        const handleTogglingConfirm = () =>
-          dispatchToggleConfirm().then(() => refreshGuestList())
-
-        const handleLink = plusOneEmail =>
-          handleLinkEmail(plusOneEmail).then(() => refreshGuestList())
-
-        return (
-          <div className="guest-actions__container">
-            <Button onClick={() => {}} text={"Send RSVP"} />
-            <Button
-              onClick={() => setShowDialog(true)}
-              text={"Attach plus-one"}
-            />
-            <Button
-              onClick={handleTogglingConfirm}
-              text={"Confirm/Unconfirm"}
-            />
-            <PlusOneDialog
-              open={showDialog}
-              handleClose={plusOneEmail => handleLink(plusOneEmail)}
-            />
-            <Snackbar
-              open={showErrorToast}
-              autoHideDuration={5000}
-              onClose={handleCloseToast}
-            >
-              <Card>
-                <CardContent>
-                  <Typography component="p" variant="body1">
-                    Uh oh, couldn't link that email.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Snackbar>
-          </div>
-        )
-      }}
-    </GuestContext.Consumer>
+    <div className="guest-actions__container">
+      <Button onClick={() => {}} text={"Send RSVP"} />
+      <Button onClick={() => setShowDialog(true)} text={"Attach plus-one"} />
+      <Button onClick={handleTogglingConfirm} text={"Confirm/Unconfirm"} />
+      <PlusOneDialog
+        open={showDialog}
+        handleClose={plusOneEmail => handleLink(plusOneEmail)}
+      />
+      <Snackbar
+        open={showErrorToast}
+        autoHideDuration={5000}
+        onClose={handleCloseToast}
+      >
+        <Card>
+          <CardContent>
+            <Typography component="p" variant="body1">
+              Uh oh, couldn't link that email.
+            </Typography>
+          </CardContent>
+        </Card>
+      </Snackbar>
+    </div>
   )
 }
 
