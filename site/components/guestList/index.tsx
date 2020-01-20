@@ -68,7 +68,7 @@ const GuestActions = ({ email }) => {
   const [showErrorToast, setShowErrorToast] = React.useState(false)
 
   const dispatchToggleConfirm = () =>
-    Axios.put("/api/guest/confirm/", {
+    Axios.post("/api/guest/confirm/toggle", {
       guestEmail: email,
     })
 

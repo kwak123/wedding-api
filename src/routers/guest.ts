@@ -28,6 +28,17 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
+  guestRouter.post("/confirm/toggle", async (req, res) => {
+    const { guestEmail } = req.body
+
+    try {
+      const guest = await mongoDb.toggleGuestConfirmation(guestEmail)
+      return res.send(guest)
+    } catch (e) {
+      handleError(e, res)
+    }
+  })
+
   guestRouter.post("/link/", async (req, res) => {
     const { guestEmail, plusOneEmail } = req.body
 
