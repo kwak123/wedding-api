@@ -1,8 +1,8 @@
-import utils from "./utils"
+import hashingUtils from "./hashing"
 
 describe("mailgun utils", () => {
   describe("makeEmailHash", () => {
-    const { makeEmailHash } = utils
+    const { makeEmailHash } = hashingUtils
 
     it("should generate a random hash for different strings", () => {
       const testEmailOne = "sam@gmail.com"
@@ -28,7 +28,7 @@ describe("mailgun utils", () => {
   })
 
   describe("readEmailHash", () => {
-    const { readEmailHash, makeEmailHash } = utils
+    const { readEmailHash, makeEmailHash } = hashingUtils
 
     it("should dehash a hash string back to the correct email", () => {
       const testEmail = "sam@gmail.com"
