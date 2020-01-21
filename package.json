@@ -43,6 +43,7 @@
     "dev": "nodemon dist/index.js",
     "build": "tsc",
     "build-ui": "parcel build public/index.html",
-    "watch-ui": "parcel public/index.html"
+    "watch-ui": "parcel public/index.html",
+    "test": "jest"
   }
 }
