@@ -17,10 +17,15 @@ class RedisHelper {
       try {
         client.set(key, value, (err, result) => {
           if (err) {
+            console.error(
+              `Failed to set key ${key} with value ${value}`,
+              err.message
+            )
             return reject(err)
           }
           client.expire(key, this.ONE_HOUR, (err, success) => {
             if (err) {
+              console.error(`Failed to set TTL on ${key}`, err.message)
               return reject(err)
             }
             return resolve(success >= 0)
@@ -35,7 +40,6 @@ class RedisHelper {
   private retrieveString: (key: string) => Promise<string> = key =>
     new Promise((resolve, reject) => {
       client.get(key, (err, result) => {
-        console.log(result)
         if (err) {
           console.error(`Failed to get key ${key}!`, err.message)
           return reject(err)
