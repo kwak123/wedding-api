@@ -1,15 +1,21 @@
 import redis from "redis"
-import Logger from "../utils/logger"
 
-const logger = new Logger("redis:client")
-const client = redis.createClient()
+const client = redis.createClient("redis://cache")
 
 client.on("ready", () => {
-  logger.log("Connected")
+  console.log("Connected to Redis")
 })
 
 client.on("error", error => {
-  logger.error("Failed to load %o", error)
+  console.error("Failed to load %o", error)
+})
+
+client.on("reconnecting", () => {
+  console.log("Redis reconnecting...")
+})
+
+client.on("end", () => {
+  console.log("Redis disconnected")
 })
 
 export default client
