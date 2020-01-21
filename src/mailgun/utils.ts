@@ -1,6 +1,6 @@
 import crypto from "crypto"
 
-// To keep tests in sync with what hashing system we're using
+// Went with encrypting the emails, there's no way to undo a hash so an encryption gives us permanence
 const ALGORITHM = "aes-128-cbc"
 
 const salt = "foobar"
@@ -27,10 +27,6 @@ const makeEmailHash = (email: string) => {
   const hash = cipher.update(email, PUBLIC_ENCODING, SECRET_ENCODING)
   return hash + cipher.final(SECRET_ENCODING)
 }
-// crypto
-//   .createHash(HASH_TYPE)
-//   .update(email)
-//   .digest(ENCODING_TYPE)
 
 export default {
   makeEmailHash,
