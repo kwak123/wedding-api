@@ -81,7 +81,7 @@ class MongoDb implements MongoDbHelper {
   }
 
   /**
-   * Give an email, returns true if able to delete
+   * Give an email, returns true if able to delete. Will also attempt to remove plusOneIds if possible
    */
   removeGuest = async (email: string) => {
     const deletedCount = await Guest.deleteOne({ email })

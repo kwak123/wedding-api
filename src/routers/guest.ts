@@ -79,6 +79,15 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
+  guestRouter.delete("/del/:guestEmail", async (req, res) => {
+    try {
+      const deletedGuest = await mongoDb.removeGuest(req.params.guestEmail)
+      return res.sendStatus(200)
+    } catch (e) {
+      handleError(e, res)
+    }
+  })
+
   return guestRouter
 }
 
