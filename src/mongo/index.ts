@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { WeddingGuest } from "./schemas/Guest"
+import { WeddingGuest } from "./schemas/guest"
 import { Guest } from "./client"
 
 export interface MongoDbHelper {
