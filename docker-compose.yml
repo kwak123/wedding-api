@@ -3,7 +3,7 @@ version: "3"
 services:
   api:
     build: .
-    command: npm run dev
+    command: bash -c "npm build && npm run dev"
     # env_file: ./slack/.env
     ports:
       - "3001:3001"

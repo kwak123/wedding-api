@@ -60,7 +60,6 @@ emailRouter.post("/verify-hash", async (req, res) => {
   try {
     const { hashedEmail } = verifyHashOptions
     const email = await Redis.getCachedString(hashedEmail)
-    console.log(email)
 
     if (!!email) {
       res.send({ found: true })
