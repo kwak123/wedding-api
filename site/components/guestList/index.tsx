@@ -136,7 +136,7 @@ const GuestCard = ({ guest }: GuestProps) => {
         <p className="guest-plus-one">
           Plus One: {guest.plusOneId && guest.plusOneId.name}
         </p>
-        <GuestConfirmed confirmed={guest.confirmed} />
+        <GuestConfirmed confirmed={guest.isConfirmed} />
       </div>
       <div className="guest-restrictions__container">
         <h3 className="guest-restrictions__header">Dietary Restrictions</h3>

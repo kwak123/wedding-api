@@ -4,8 +4,20 @@ export const GUEST_SCHEMA_NAME = "Guest"
 
 // Make sure README stays in sync with this
 export interface WeddingGuest extends Document {
+  // Whether guest has entered their email to view RSVP on wedding-site
+  hasReceivedRsvp: boolean
+
+  // Whether guest has responded to RSVP
+  isConfirmed: boolean
+
+  // Whether guest is attending or not
+  isAttending: boolean
+
   // Guest name
   name: string
+
+  // Whether or not the guest gets a plus one
+  isPlusOneEligible: boolean
 
   // Mongo ID of Guest's plus-one
   plusOneId: string
@@ -13,19 +25,29 @@ export interface WeddingGuest extends Document {
   // Guest email - used as UUID outside of Mongo ID
   email: string
 
-  // Whether guest has responded to RSVP
-  confirmed: boolean
-
-  // Whether guest is attending or not
-  attending: boolean
-
   // List of dietary restrictions, simply string for now
   dietaryRestrictions: string[]
 }
 
 const guestSchema = new mongoose.Schema({
+  hasReceivedRsvp: {
+    type: Boolean,
+    default: false,
+  },
+  isConfirmed: {
+    type: Boolean,
+    default: false,
+  },
+  isAttending: {
+    type: Boolean,
+    default: false,
+  },
   name: {
     type: String,
+    required: true,
+  },
+  isPlusOneEligible: {
+    type: Boolean,
     required: true,
   },
   plusOneId: {

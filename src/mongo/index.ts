@@ -68,14 +68,14 @@ class MongoDb implements MongoDbHelper {
 
   toggleGuestConfirmation = async (email: string) => {
     const guest = (await Guest.findOne({ email })) as WeddingGuest
-    guest.confirmed = !guest.confirmed
+    guest.isConfirmed = !guest.isConfirmed
     const savedGuest = (await guest.save()) as WeddingGuest
     return savedGuest
   }
 
   confirmGuest = async (email: string) => {
     const guest = (await Guest.findOne({ email })) as WeddingGuest
-    guest.confirmed = true
+    guest.isConfirmed = true
     const savedGuest = (await guest.save()) as WeddingGuest
     return savedGuest
   }
