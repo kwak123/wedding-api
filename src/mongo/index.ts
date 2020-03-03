@@ -1,9 +1,9 @@
-import mongoose from "mongoose"
+import mongoose, { Document } from "mongoose"
 import { WeddingGuest } from "./schemas/guest"
 import { Guest } from "./client"
 
 export interface MongoDbHelper {
-  addGuest: (guest: WeddingGuest) => Promise<WeddingGuest>
+  addGuest: (guest: WeddingGuest, plusOneEmail: string) => Promise<WeddingGuest>
   getAllGuests: () => Promise<WeddingGuest[]>
   getConfirmedGuests: () => Promise<WeddingGuest[]>
   getGuest: (email: string) => Promise<WeddingGuest>
@@ -20,30 +20,38 @@ class MongoDb implements MongoDbHelper {
   /**
    * Receive JS Object of wedding guest, hands back the MongoDB Variant
    */
-  addGuest = async (guest: WeddingGuest) => {
+  addGuest = async (guest: WeddingGuest, plusOneEmail: string) => {
     const exists = await Guest.findOne({ email: guest.email })
     if (exists) {
       throw `Guest with email ${guest.email} already exists!`
     }
 
+    if (plusOneEmail) {
+      const plusOne = await Guest.findOne({ email: plusOneEmail })
+      if (plusOne !== null) {
+        guest.plusOneId = plusOne._id
+      }
+    }
+
     const newGuest = await Guest.create(guest)
-    const savedGuest = (await newGuest.save()) as WeddingGuest
+
+    const savedGuest = (await newGuest.save()) as WeddingGuest & Document
     return savedGuest
   }
 
   getAllGuests = async () => {
     const allGuests = await Guest.find().populate("plusOneId")
-    return allGuests as WeddingGuest[]
+    return allGuests as (WeddingGuest & Document)[]
   }
 
   getConfirmedGuests = async () => {
     const confirmedGuests = await Guest.find({ confirmed: true })
-    return confirmedGuests as WeddingGuest[]
+    return confirmedGuests as (WeddingGuest & Document)[]
   }
 
   getGuest = async (email: string) => {
-    const guest = await Guest.findOne({ email })
-    return guest as WeddingGuest
+    const guest = await Guest.findOne({ email }).populate("plusOneId")
+    return guest as WeddingGuest & Document
   }
 
   linkPlusOne = async (guestEmail: string, plusOneEmail: string) => {
@@ -67,14 +75,14 @@ class MongoDb implements MongoDbHelper {
   }
 
   toggleGuestConfirmation = async (email: string) => {
-    const guest = (await Guest.findOne({ email })) as WeddingGuest
+    const guest = (await Guest.findOne({ email })) as WeddingGuest & Document
     guest.isConfirmed = !guest.isConfirmed
     const savedGuest = (await guest.save()) as WeddingGuest
     return savedGuest
   }
 
   confirmGuest = async (email: string) => {
-    const guest = (await Guest.findOne({ email })) as WeddingGuest
+    const guest = (await Guest.findOne({ email })) as WeddingGuest & Document
     guest.isConfirmed = true
     const savedGuest = (await guest.save()) as WeddingGuest
     return savedGuest

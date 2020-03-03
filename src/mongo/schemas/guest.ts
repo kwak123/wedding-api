@@ -3,7 +3,7 @@ import mongoose, { Document } from "mongoose"
 export const GUEST_SCHEMA_NAME = "Guest"
 
 // Make sure README stays in sync with this
-export interface WeddingGuest extends Document {
+export interface WeddingGuest {
   // Whether guest has entered their email to view RSVP on wedding-site
   hasReceivedRsvp: boolean
 
@@ -59,10 +59,6 @@ const guestSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  confirmed: {
-    type: Boolean,
-    default: false,
   },
   dietaryRestrictions: {
     type: Array,

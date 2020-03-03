@@ -6,11 +6,12 @@ import { handleError } from "../utils/middleware"
 const buildGuestRouter = (mongoDb: MongoDbHelper) => {
   const guestRouter = Router()
 
+  // Need to account for looking for guest email if possible
   guestRouter.post("/add", async (req, res) => {
-    const weddingGuest = req.body
+    const { guestEmail, ...weddingGuest } = req.body
 
     try {
-      const guest = await mongoDb.addGuest(weddingGuest)
+      const guest = await mongoDb.addGuest(weddingGuest, guestEmail)
       return res.send(guest)
     } catch (e) {
       handleError(e, res)
