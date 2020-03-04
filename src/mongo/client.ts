@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { Document } from "mongoose"
 
 import guestSchema, { WeddingGuest } from "./schemas/guest"
 
@@ -20,7 +20,7 @@ mongoose
   .then(() => console.log("Connected to Mongo"))
 
 const db = mongoose.connection
-const Guest = mongoose.model("Guest", guestSchema)
+const Guest = mongoose.model<WeddingGuest & Document>("Guest", guestSchema)
 
 guestSchema.pre("deleteOne", async function removeReferenceFromPlusOne(next) {
   const guest = this as WeddingGuest & mongoose.Document
