@@ -15,8 +15,8 @@ services:
       # --
       # Local
       DB_URL: mongodb://mongo:27017
-      DB_USER: kwakanalia
-      DB_PASSWORD: elycheea
+      DB_USER: ${MONGO_USER}
+      DB_PASSWORD: ${MONGO_PASSWORD}
       MG_API_KEY: "${MAILGUN_API_KEY}"
     depends_on:
       - mongo
@@ -24,9 +24,9 @@ services:
   mongo:
     image: mongo
     environment:
-      - MONGO_INITDB_DATABASE=kwakanalia
-      - MONGO_INITDB_ROOT_USERNAME=kwakanalia
-      - MONGO_INITDB_ROOT_PASSWORD=elycheea
+      - MONGO_INITDB_DATABASE=${MONGO_DB}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
     ports:
       - "27017-27019:27017-27019"
   redis:
