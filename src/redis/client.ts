@@ -1,6 +1,6 @@
 import redis from "redis"
 
-const client = redis.createClient("redis://cache")
+const client = redis.createClient(process.env.REDIS_URL)
 
 client.on("ready", () => {
   console.log("Connected to Redis")
