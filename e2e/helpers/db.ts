@@ -1,4 +1,5 @@
 import mongoClient, { Guest } from "../../src/mongo/client"
+import { WeddingGuest } from "../../src/mongo/schemas/guest"
 import redisClient from "../../src/redis/client"
 
 const TEST_DB_NAME = "test"
@@ -24,4 +25,5 @@ class DbTestHelper {
   }
 }
 
+export { WeddingGuest }
 export default DbTestHelper

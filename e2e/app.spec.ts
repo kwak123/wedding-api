@@ -1,4 +1,4 @@
-import DbHelper from "./helpers/db"
+import DbHelper, { WeddingGuest } from "./helpers/db"
 import request from "supertest"
 import app from "../src/app"
 
@@ -80,23 +80,14 @@ describe("app", () => {
 
   const makeGuestUrl = (endpoint: string) => `/api/guest/${endpoint}`
 
-  interface Guest {
-    name: string
-    email: string
-    isPlusOneEligible: boolean
-    plusOneId: string | null
-    confirmed: boolean
-    attending: false
-    dietaryRestrictions: string[]
-  }
   const makeDummyGuest = ({ name, email }: { name: string; email: string }) =>
     ({
       name,
       email,
       isPlusOneEligible: true,
       plusOneId: null,
-      confirmed: false,
-      attending: false,
+      isAttending: false,
+      isConfirmed: false,
       dietaryRestrictions: [],
-    } as Guest)
+    } as WeddingGuest)
 })
