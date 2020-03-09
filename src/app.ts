@@ -6,7 +6,9 @@ import "./mongo/client"
 import configureRouter from "./routes"
 
 const logRequest = (req: Request, res: Response, next: NextFunction) => {
-  console.log(`Received ${req.method}: ${req.url}`)
+  if (process.env.NODE_ENV !== "test") {
+    console.log(`Received ${req.method}: ${req.url}`)
+  }
   next()
 }
 
