@@ -24,6 +24,11 @@ class DbTestHelper {
     return true
   }
 
+  async getGuest(email: string) {
+    const guest = await Guest.find({ email })
+    return guest
+  }
+
   async closeConnection() {
     await mongoClient.close()
     await redisClient.quit()

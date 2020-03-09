@@ -45,7 +45,7 @@ describe("app", () => {
           email: mockEmail,
         })
 
-        dbHelper.addGuest(mockGuest)
+        await dbHelper.addGuest(mockGuest)
 
         const badRes = await request(app)
           .post(makeGuestUrl("add"))
@@ -72,6 +72,39 @@ describe("app", () => {
         expect(res.body.name).toEqual(mockName)
         expect(res.body.email).toEqual(mockEmail)
       })
+    })
+  })
+
+  describe("link", () => {
+    it("should link two guests", async () => {
+      const mockName = "sam"
+      const mockEmail = "sam@test.com"
+      const linkedName = "elysia"
+      const linkedEmail = "elysia@test.com"
+
+      const mockGuest = makeDummyGuest({
+        name: mockName,
+        email: mockEmail,
+      })
+
+      const linkedGuest = makeDummyGuest({
+        name: linkedName,
+        email: linkedEmail,
+      })
+
+      await dbHelper.addGuest(mockGuest)
+      await dbHelper.addGuest(linkedGuest)
+
+      const res = await request(app)
+        .post(makeGuestUrl("link/"))
+        .send({
+          guestEmail: mockEmail,
+          plusOneEmail: linkedEmail,
+        })
+
+      expect(res.body.email).toEqual(mockEmail)
+      // While not authoritative, schema allots for oid OR null, so if NOT null, this must exist
+      expect(res.body.plusOneId).not.toBeNull()
     })
   })
 
