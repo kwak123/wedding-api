@@ -18,6 +18,12 @@ class DbTestHelper {
     return true
   }
 
+  async addGuest(guest: WeddingGuest) {
+    const newGuest = new Guest(guest)
+    await newGuest.save()
+    return true
+  }
+
   async closeConnection() {
     await mongoClient.close()
     await redisClient.quit()

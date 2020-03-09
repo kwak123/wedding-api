@@ -45,15 +45,12 @@ describe("app", () => {
           email: mockEmail,
         })
 
-        const goodRes = await request(app)
-          .post(makeGuestUrl("add"))
-          .send(mockGuest)
+        dbHelper.addGuest(mockGuest)
 
         const badRes = await request(app)
           .post(makeGuestUrl("add"))
           .send(mockGuest)
 
-        expect(goodRes.status).toEqual(200)
         expect(badRes.status).toEqual(400)
       })
     })
