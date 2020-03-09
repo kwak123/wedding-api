@@ -29,6 +29,13 @@ class DbTestHelper {
     return guest
   }
 
+  async linkGuest(emailOne: string, emailTwo: string) {
+    const firstGuest = await this.getGuest(emailOne)
+    const secondGuest = await this.getGuest(emailTwo)
+    firstGuest.plusOneId = secondGuest._id
+    return firstGuest.save()
+  }
+
   async closeConnection() {
     await mongoClient.close()
     await redisClient.quit()

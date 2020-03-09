@@ -47,10 +47,8 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
       const guest = await mongoDb.linkPlusOne(guestEmail, plusOneEmail)
       return res.send(guest)
     } catch (e) {
-      handleError(e, res)
+      handleError(e, res, 400)
     }
-
-    return res.send("yes")
   })
 
   guestRouter.get("/get/all", async (req, res) => {

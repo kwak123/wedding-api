@@ -84,7 +84,7 @@ describe("app", () => {
       await dbHelper.addGuest(linkedGuest)
 
       const res = await request(app)
-        .post(makeGuestUrl("link/"))
+        .post(makeGuestUrl("link"))
         .send({
           guestEmail: mockEmail,
           plusOneEmail: linkedEmail,
@@ -93,6 +93,21 @@ describe("app", () => {
       expect(res.body.email).toEqual(mockEmail)
       // While not authoritative, schema allots for oid OR null, so if NOT null, this must exist
       expect(res.body.plusOneId).not.toBeNull()
+    })
+
+    it("should not link guests if already linked", async () => {
+      await dbHelper.addGuest(mockGuest)
+      await dbHelper.addGuest(linkedGuest)
+      await dbHelper.linkGuest(mockGuest.email, linkedGuest.email)
+
+      const res = await request(app)
+        .post(makeGuestUrl("link"))
+        .send({
+          guestEmail: mockEmail,
+          plusOneEmail: linkedEmail,
+        })
+
+      expect(res.status).toBe(400)
     })
   })
 
