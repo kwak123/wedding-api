@@ -14,7 +14,7 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
       const guest = await mongoDb.addGuest(weddingGuest, guestEmail)
       return res.send(guest)
     } catch (e) {
-      handleError(e, res)
+      handleError(e, res, 400)
     }
   })
 
