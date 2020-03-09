@@ -25,7 +25,7 @@ class DbTestHelper {
   }
 
   async getGuest(email: string) {
-    const guest = await Guest.find({ email })
+    const guest = await Guest.findOne({ email })
     return guest
   }
 
