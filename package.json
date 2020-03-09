@@ -28,6 +28,7 @@
     "@types/jest": "^24.0.18",
     "@types/mongoose": "^5.5.22",
     "@types/redis": "^2.8.14",
+    "@types/supertest": "^2.0.8",
     "babel-polyfill": "^6.26.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
@@ -46,6 +47,6 @@
     "build-ui": "parcel build public/index.html",
     "watch-ui": "parcel public/index.html",
     "test": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest src/",
-    "e2e": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest e2e/"
+    "e2e": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest e2e/ --runInBand"
   }
 }
