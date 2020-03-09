@@ -4,6 +4,12 @@ import app from "../src/app"
 
 describe("app", () => {
   let dbHelper: DbHelper
+  let mockName: string
+  let mockEmail: string
+  let mockGuest: WeddingGuest
+  let linkedName: string
+  let linkedEmail: string
+  let linkedGuest: WeddingGuest
 
   beforeAll(() => {
     dbHelper = new DbHelper()
@@ -11,6 +17,22 @@ describe("app", () => {
 
   beforeEach(async () => {
     await dbHelper.resetDb()
+
+    mockName = "sam"
+    mockEmail = "sam@test.com"
+    linkedName = "elysia"
+    linkedEmail = "elysia@test.com"
+
+    mockGuest = makeDummyGuest({
+      name: mockName,
+      email: mockEmail,
+    })
+
+    linkedGuest = makeDummyGuest({
+      name: linkedName,
+      email: linkedEmail,
+    })
+
     return
   })
 
@@ -22,12 +44,6 @@ describe("app", () => {
   describe("guest", () => {
     describe("add", () => {
       it("should successfully add a guest", async () => {
-        const mockName = "sam"
-        const mockEmail = "test@test.com"
-        const mockGuest = makeDummyGuest({
-          name: mockName,
-          email: mockEmail,
-        })
         const res = await request(app)
           .post(makeGuestUrl("add"))
           .send(mockGuest)
@@ -38,13 +54,6 @@ describe("app", () => {
       })
 
       it("should not allow adding a guest twice", async () => {
-        const mockName = "sam"
-        const mockEmail = "test@test.com"
-        const mockGuest = makeDummyGuest({
-          name: mockName,
-          email: mockEmail,
-        })
-
         await dbHelper.addGuest(mockGuest)
 
         const badRes = await request(app)
@@ -57,12 +66,6 @@ describe("app", () => {
 
     describe("get", () => {
       it("should fetch guests by email", async () => {
-        const mockName = "sam"
-        const mockEmail = "test@test.com"
-        const mockGuest = makeDummyGuest({
-          name: mockName,
-          email: mockEmail,
-        })
         await request(app)
           .post(makeGuestUrl("add"))
           .send(mockGuest)
@@ -77,21 +80,6 @@ describe("app", () => {
 
   describe("link", () => {
     it("should link two guests", async () => {
-      const mockName = "sam"
-      const mockEmail = "sam@test.com"
-      const linkedName = "elysia"
-      const linkedEmail = "elysia@test.com"
-
-      const mockGuest = makeDummyGuest({
-        name: mockName,
-        email: mockEmail,
-      })
-
-      const linkedGuest = makeDummyGuest({
-        name: linkedName,
-        email: linkedEmail,
-      })
-
       await dbHelper.addGuest(mockGuest)
       await dbHelper.addGuest(linkedGuest)
 
