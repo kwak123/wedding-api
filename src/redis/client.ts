@@ -15,7 +15,9 @@ client.on("reconnecting", () => {
 })
 
 client.on("end", () => {
-  console.log("Redis disconnected")
+  if (process.env.NODE_ENV !== "test") {
+    console.log("Redis disconnected")
+  }
 })
 
 export default client

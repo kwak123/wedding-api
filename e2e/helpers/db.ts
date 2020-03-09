@@ -1,4 +1,5 @@
-import client, { Guest } from "../../src/mongo/client"
+import mongoClient, { Guest } from "../../src/mongo/client"
+import redisClient from "../../src/redis/client"
 
 const TEST_DB_NAME = "test"
 
@@ -17,7 +18,9 @@ class DbTestHelper {
   }
 
   async closeConnection() {
-    return client.close()
+    await mongoClient.close()
+    await redisClient.quit()
+    return
   }
 }
 
