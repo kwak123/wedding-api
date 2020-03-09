@@ -7,6 +7,11 @@ class DbTestHelper {
     if (process.env.NODE_ENV !== "test") {
       throw "You're trying to delete a non-test database!"
     }
+    await this.clearDb()
+    return true
+  }
+
+  async clearDb() {
     await Guest.deleteMany({})
     return true
   }
