@@ -57,6 +57,25 @@ describe("app", () => {
         expect(badRes.status).toEqual(400)
       })
     })
+
+    describe("get", () => {
+      it("should fetch guests by email", async () => {
+        const mockName = "sam"
+        const mockEmail = "test@test.com"
+        const mockGuest = makeDummyGuest({
+          name: mockName,
+          email: mockEmail,
+        })
+        await request(app)
+          .post(makeGuestUrl("add"))
+          .send(mockGuest)
+
+        const res = await request(app).get(makeGuestUrl(`get/${mockEmail}`))
+
+        expect(res.body.name).toEqual(mockName)
+        expect(res.body.email).toEqual(mockEmail)
+      })
+    })
   })
 
   const makeGuestUrl = (endpoint: string) => `/api/guest/${endpoint}`
