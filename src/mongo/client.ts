@@ -11,10 +11,10 @@ if (process.env.NODE_ENV === "PROD") {
 }
 
 mongoose
-  .connect(process.env.DB_URL, {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-    user: process.env.DB_USER,
-    pass: process.env.DB_PASSWORD,
+    user: process.env.MONGO_USER,
+    pass: process.env.MONGO_PASSWORD,
     dbName,
   })
   .then(() => console.log("Connected to Mongo"))

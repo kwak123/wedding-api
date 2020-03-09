@@ -14,9 +14,9 @@ services:
       # DATABASE_URL: postgres://statustician:statustician@0.tcp.ngrok.io:11433/statustician
       # --
       # Local
-      DB_URL: mongodb://mongo:27017
-      DB_USER: ${MONGO_USER}
-      DB_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
       MG_API_KEY: "${MAILGUN_API_KEY}"
     depends_on:
       - mongo

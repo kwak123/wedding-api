@@ -45,6 +45,6 @@
     "build": "tsc",
     "build-ui": "parcel build public/index.html",
     "watch-ui": "parcel public/index.html",
-    "test": "DB_URL=\"mongodb://localhost:27017\" DB_USER=kwakanalia DB_PASSWORD=elycheea NODE_ENV=test jest"
+    "test": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest"
   }
 }
