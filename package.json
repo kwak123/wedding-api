@@ -46,6 +46,6 @@
     "build-ui": "parcel build public/index.html",
     "watch-ui": "parcel public/index.html",
     "test": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest src/",
-    "e2e": "jest e2e/"
+    "e2e": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest e2e/"
   }
 }
