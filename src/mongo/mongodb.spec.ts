@@ -69,6 +69,32 @@ describe("mongoDb tests", () => {
       expect(finalGuestDetails.email).toBe(dummyGuest.email)
       expect(finalGuestDetails.isAttending).toBe(true)
     })
+
+    it("should set guest plusOne attending to same value", async () => {
+      const dummyGuest = makeDummyGuest()
+      const plusOneGuest = makeDummyGuest({
+        name: "Plus one",
+        email: "plusOne@dummy.com",
+      })
+
+      const initialDummyGuest = await Guest.create(dummyGuest)
+      const initialPlusOneGuest = await Guest.create(plusOneGuest)
+
+      initialDummyGuest.plusOneId = initialPlusOneGuest._id
+      initialPlusOneGuest.plusOneId = initialDummyGuest._id
+
+      await initialDummyGuest.save()
+      await initialPlusOneGuest.save()
+
+      await MongoDb.setRsvp(dummyGuest.email, true, plusOneGuest.email)
+
+      const finalDummyGuest = await Guest.findOne({ email: dummyGuest.email })
+      const finalPlusOneGuest = await Guest.findOne({
+        email: plusOneGuest.email,
+      })
+      expect(finalDummyGuest.isAttending).toBe(true)
+      expect(finalPlusOneGuest.isAttending).toBe(true)
+    })
   })
 
   describe("linkPlusOne", () => {

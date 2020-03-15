@@ -104,6 +104,7 @@ class MongoDb implements MongoDbHelper {
     const guest = await this.getGuest(guestEmail)
     const plusOne = await this.getGuest(plusOneEmail)
 
+    // FIXME: 3/15/2020 _id.equals() isn't working as expected, need to investigate
     if (
       guest.plusOneId &&
       (guest.plusOneId as WeddingGuest & Document)._id.toString() !==
