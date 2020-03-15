@@ -49,6 +49,20 @@ describe("mongoDb tests", () => {
       const guest = await MongoDb.getOrAddGuest(dummyEmail)
       expect(guest.email).toEqual(dummyEmail)
     })
+
+    it("should add guest, if not already exists", async () => {
+      const defaultName = "Unnamed"
+      const dummyEmail = "dummyEmail@dummy.com"
+      const shouldBeNull = await Guest.findOne({ email: dummyEmail })
+
+      expect(shouldBeNull).toBeNull()
+
+      const guest = await MongoDb.getOrAddGuest(dummyEmail)
+      const shouldNotBeNull = await Guest.findOne({ email: dummyEmail })
+      expect(shouldNotBeNull).not.toBeNull()
+      expect(guest.name).toBe(defaultName)
+      expect(guest.email).toBe(dummyEmail)
+    })
   })
 
   const makeDummyGuest = ({

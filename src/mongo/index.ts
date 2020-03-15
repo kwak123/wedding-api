@@ -62,7 +62,7 @@ class MongoDb implements MongoDbHelper {
     const guest = await this.getGuest(email)
     if (guest === null) {
       const newGuestDetails: WeddingGuest = {
-        name: "",
+        name: "Unnamed",
         email,
         hasReceivedRsvp: false,
         isAttending: false,
