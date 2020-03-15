@@ -59,6 +59,18 @@ describe("mongoDb tests", () => {
     })
   })
 
+  describe("setRsvp", () => {
+    it("should set isAttending", async () => {
+      const dummyGuest = makeDummyGuest()
+      const initialGuestDetails = await Guest.create(dummyGuest)
+      expect(initialGuestDetails.isAttending).toBe(false)
+      await MongoDb.setRsvp(dummyGuest.email, true)
+      const finalGuestDetails = await Guest.findOne({ email: dummyGuest.email })
+      expect(finalGuestDetails.email).toBe(dummyGuest.email)
+      expect(finalGuestDetails.isAttending).toBe(true)
+    })
+  })
+
   const makeDummyGuest = ({
     name = "Dummy name",
     email = "dummyEmail@dummy.com",

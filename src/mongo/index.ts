@@ -11,6 +11,11 @@ export interface MongoDbHelper {
   getConfirmedGuests: () => Promise<WeddingGuest[]>
   getGuest: (email: string) => Promise<WeddingGuest>
   getOrAddGuest: (email: string) => Promise<WeddingGuest>
+  setRsvp: (
+    email: string,
+    isAttending: boolean,
+    plusOneEmail?: string
+  ) => Promise<WeddingGuest>
   linkPlusOne: (
     guestEmail: string,
     plusOneEmail: string
@@ -73,6 +78,25 @@ class MongoDb implements MongoDbHelper {
       }
       return this.addGuest(newGuestDetails)
     }
+    return guest
+  }
+
+  setRsvp = async (
+    guestEmail: string,
+    isAttending: boolean,
+    plusOneEmail?: string
+  ) => {
+    const guest = await this.getGuest(guestEmail)
+    guest.isAttending = isAttending
+
+    if (plusOneEmail) {
+      const plusOne = await this.getOrAddGuest(plusOneEmail)
+      await this.linkPlusOne(guestEmail, plusOneEmail)
+      plusOne.isAttending = isAttending
+      await plusOne.save()
+    }
+
+    await guest.save()
     return guest
   }
 
