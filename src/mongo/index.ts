@@ -10,6 +10,7 @@ export interface MongoDbHelper {
   getAllGuests: () => Promise<WeddingGuest[]>
   getConfirmedGuests: () => Promise<WeddingGuest[]>
   getGuest: (email: string) => Promise<WeddingGuest>
+  getOrAddGuest: (email: string) => Promise<WeddingGuest>
   linkPlusOne: (
     guestEmail: string,
     plusOneEmail: string
@@ -55,6 +56,24 @@ class MongoDb implements MongoDbHelper {
   getGuest = async (email: string) => {
     const guest = await Guest.findOne({ email }).populate("plusOneId")
     return guest as WeddingGuest & Document
+  }
+
+  getOrAddGuest = async (email: string) => {
+    const guest = await this.getGuest(email)
+    if (guest === null) {
+      const newGuestDetails: WeddingGuest = {
+        name: "",
+        email,
+        hasReceivedRsvp: false,
+        isAttending: false,
+        isConfirmed: false,
+        isPlusOneEligible: false,
+        plusOneId: null,
+        dietaryRestrictions: [],
+      }
+      return this.addGuest(newGuestDetails)
+    }
+    return guest
   }
 
   linkPlusOne = async (guestEmail: string, plusOneEmail: string) => {

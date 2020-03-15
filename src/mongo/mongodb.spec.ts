@@ -39,6 +39,18 @@ describe("mongoDb tests", () => {
     })
   })
 
+  describe("getOrAddGuest", () => {
+    it("should get a guest, if guest already exists", async () => {
+      const dummyName = "Dummy name"
+      const dummyEmail = "dummyEmail@dummy.com"
+      const dummyGuest = makeDummyGuest({ name: dummyName, email: dummyEmail })
+
+      await Guest.create(dummyGuest)
+      const guest = await MongoDb.getOrAddGuest(dummyEmail)
+      expect(guest.email).toEqual(dummyEmail)
+    })
+  })
+
   const makeDummyGuest = ({
     name,
     email,
