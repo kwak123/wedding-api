@@ -44,23 +44,23 @@ class MongoDb implements MongoDbHelper {
 
     const newGuest = await Guest.create(guest)
 
-    const savedGuest = (await newGuest.save()) as WeddingGuest & Document
+    const savedGuest = await newGuest.save()
     return savedGuest
   }
 
   getAllGuests = async () => {
     const allGuests = await Guest.find().populate("plusOneId")
-    return allGuests as (WeddingGuest & Document)[]
+    return allGuests
   }
 
   getConfirmedGuests = async () => {
     const confirmedGuests = await Guest.find({ confirmed: true })
-    return confirmedGuests as (WeddingGuest & Document)[]
+    return confirmedGuests
   }
 
   getGuest = async (email: string) => {
     const guest = await Guest.findOne({ email }).populate("plusOneId")
-    return guest as WeddingGuest & Document
+    return guest
   }
 
   getOrAddGuest = async (email: string) => {
@@ -124,21 +124,21 @@ class MongoDb implements MongoDbHelper {
     plusOne.plusOneId = guest._id
 
     await plusOne.save()
-    const savedGuest = (await guest.save()) as WeddingGuest
+    const savedGuest = await guest.save()
     return savedGuest
   }
 
   toggleGuestConfirmation = async (email: string) => {
-    const guest = (await Guest.findOne({ email })) as WeddingGuest & Document
+    const guest = await Guest.findOne({ email })
     guest.isConfirmed = !guest.isConfirmed
-    const savedGuest = (await guest.save()) as WeddingGuest
+    const savedGuest = await guest.save()
     return savedGuest
   }
 
   confirmGuest = async (email: string) => {
-    const guest = (await Guest.findOne({ email })) as WeddingGuest & Document
+    const guest = await Guest.findOne({ email })
     guest.isConfirmed = true
-    const savedGuest = (await guest.save()) as WeddingGuest
+    const savedGuest = await guest.save()
     return savedGuest
   }
 
