@@ -71,6 +71,27 @@ describe("mongoDb tests", () => {
     })
   })
 
+  describe("linkPlusOne", () => {
+    it("should link two guests by email", async () => {
+      const dummyGuest = makeDummyGuest()
+      const plusOneGuest = makeDummyGuest({
+        name: "Plus one name",
+        email: "plusOne@dummy.com",
+      })
+
+      await Guest.create(dummyGuest)
+      await Guest.create(plusOneGuest)
+
+      await MongoDb.linkPlusOne(dummyGuest.email, plusOneGuest.email)
+
+      const finalDummyGuest = await Guest.findOne({ email: dummyGuest.email })
+      const finalPlusOne = await Guest.findOne({ email: plusOneGuest.email })
+
+      expect(finalDummyGuest.plusOneId).toEqual(finalPlusOne._id)
+      expect(finalPlusOne.plusOneId).toEqual(finalDummyGuest._id)
+    })
+  })
+
   const makeDummyGuest = ({
     name = "Dummy name",
     email = "dummyEmail@dummy.com",
