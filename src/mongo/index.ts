@@ -117,7 +117,7 @@ class MongoDb implements MongoDbHelper {
       (plusOne.plusOneId as WeddingGuest & Document)._id.toString() !==
         guest._id.toString()
     ) {
-      throw "Plus one already has a plus one"
+      throw "Plus one linkage error: guest.plusOneId matches plusOne, but plusOne.plusOneId does not match guest"
     }
 
     guest.plusOneId = plusOne._id

@@ -144,6 +144,34 @@ describe("mongoDb tests", () => {
     })
   })
 
+  it("should throw linkage error, if guest plusOneId is correct but plusOne.plusOneId does not match guest", async () => {
+    const plusOneMismatchError =
+      "Plus one linkage error: guest.plusOneId matches plusOne, but plusOne.plusOneId does not match guest"
+    const dummyGuest = makeDummyGuest()
+    const plusOneGuest = makeDummyGuest({
+      name: "Plus one name",
+      email: "plusOne@dummy.com",
+    })
+    const someOtherGuest = makeDummyGuest({
+      name: "Some other guest",
+      email: "someOtherGuest@dummy.com",
+    })
+
+    const initialDummyGuest = await Guest.create(dummyGuest)
+    const initialPlusOneGuest = await Guest.create(plusOneGuest)
+    const initialOtherGuest = await Guest.create(someOtherGuest)
+
+    initialDummyGuest.plusOneId = initialPlusOneGuest._id
+    initialPlusOneGuest.plusOneId = initialOtherGuest._id
+
+    await initialDummyGuest.save()
+    await initialPlusOneGuest.save()
+
+    const tryLinkingWrongGuest = () =>
+      MongoDb.linkPlusOne(dummyGuest.email, plusOneGuest.email)
+    await expect(tryLinkingWrongGuest()).rejects.toEqual(plusOneMismatchError)
+  })
+
   const makeDummyGuest = ({
     name = "Dummy name",
     email = "dummyEmail@dummy.com",
