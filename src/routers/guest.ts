@@ -3,6 +3,8 @@ import { Router } from "express"
 import { MongoDbHelper } from "../mongo"
 import { handleError } from "../utils/middleware"
 
+import * as GuestRouterTypes from "./types/guest"
+
 const buildGuestRouter = (mongoDb: MongoDbHelper) => {
   const guestRouter = Router()
 
@@ -18,6 +20,7 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
+  // Whether or not a guest has confirmed their invite (potentially useless?)
   guestRouter.put("/confirm", async (req, res) => {
     const { guestEmail } = req.body
 
