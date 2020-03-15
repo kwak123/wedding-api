@@ -115,6 +115,33 @@ describe("mongoDb tests", () => {
       expect(finalDummyGuest.plusOneId).toEqual(finalPlusOne._id)
       expect(finalPlusOne.plusOneId).toEqual(finalDummyGuest._id)
     })
+
+    it("should throw error if given plusOneEmail that IS NOT guest plusOneId", async () => {
+      const guestHasPlusOneError = "Guest already has a plus one"
+      const dummyGuest = makeDummyGuest()
+      const plusOneGuest = makeDummyGuest({
+        name: "Plus one name",
+        email: "plusOne@dummy.com",
+      })
+      const wrongPlusOneGuest = makeDummyGuest({
+        name: "Wrong plus one",
+        email: "wrongPlusOne@dummy.com",
+      })
+
+      const initialDummyGuest = await Guest.create(dummyGuest)
+      const initialPlusOneGuest = await Guest.create(plusOneGuest)
+      await Guest.create(wrongPlusOneGuest)
+
+      initialDummyGuest.plusOneId = initialPlusOneGuest._id
+      initialPlusOneGuest.plusOneId = initialDummyGuest._id
+
+      await initialDummyGuest.save()
+      await initialPlusOneGuest.save()
+
+      const tryLinkingWrongGuest = () =>
+        MongoDb.linkPlusOne(dummyGuest.email, wrongPlusOneGuest.email)
+      await expect(tryLinkingWrongGuest()).rejects.toEqual(guestHasPlusOneError)
+    })
   })
 
   const makeDummyGuest = ({
