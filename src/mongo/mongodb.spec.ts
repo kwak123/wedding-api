@@ -10,44 +10,38 @@ describe("mongoDb tests", () => {
 
   describe("addGuest", () => {
     it("should add a guest", async () => {
-      const dummyName = "Dummy name"
-      const dummyEmail = "dummyEmail@dummy.com"
-      const dummyGuest = makeDummyGuest({ name: dummyName, email: dummyEmail })
+      const dummyGuest = makeDummyGuest()
 
       await MongoDb.addGuest(dummyGuest)
 
-      const result = await Guest.findOne({ email: dummyEmail })
-      expect(result.name).toEqual(dummyName)
-      expect(result.email).toEqual(dummyEmail)
+      const result = await Guest.findOne({ email: dummyGuest.email })
+      expect(result.name).toEqual(dummyGuest.name)
+      expect(result.email).toEqual(dummyGuest.email)
     })
   })
 
   describe("getAllGuests", () => {
     it("should return all guests", async () => {
-      const dummyName = "Dummy name"
-      const dummyEmail = "dummyEmail@dummy.com"
-      const dummyGuest = makeDummyGuest({ name: dummyName, email: dummyEmail })
+      const dummyGuest = makeDummyGuest()
 
       await Guest.create(dummyGuest)
 
       const guestList = await MongoDb.getAllGuests()
       expect(guestList).toHaveLength(1)
       expect(guestList[0]).toMatchObject({
-        name: dummyName,
-        email: dummyEmail,
+        name: dummyGuest.name,
+        email: dummyGuest.email,
       })
     })
   })
 
   describe("getOrAddGuest", () => {
     it("should get a guest, if guest already exists", async () => {
-      const dummyName = "Dummy name"
-      const dummyEmail = "dummyEmail@dummy.com"
-      const dummyGuest = makeDummyGuest({ name: dummyName, email: dummyEmail })
+      const dummyGuest = makeDummyGuest()
 
       await Guest.create(dummyGuest)
-      const guest = await MongoDb.getOrAddGuest(dummyEmail)
-      expect(guest.email).toEqual(dummyEmail)
+      const guest = await MongoDb.getOrAddGuest(dummyGuest.email)
+      expect(guest.email).toEqual(dummyGuest.email)
     })
 
     it("should add guest, if not already exists", async () => {
@@ -66,12 +60,12 @@ describe("mongoDb tests", () => {
   })
 
   const makeDummyGuest = ({
-    name,
-    email,
+    name = "Dummy name",
+    email = "dummyEmail@dummy.com",
   }: {
-    name: string
-    email: string
-  }): WeddingGuest => ({
+    name?: string
+    email?: string
+  } = {}): WeddingGuest => ({
     hasReceivedRsvp: false,
     isConfirmed: false,
     isAttending: false,
