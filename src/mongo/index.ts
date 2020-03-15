@@ -104,11 +104,19 @@ class MongoDb implements MongoDbHelper {
     const guest = await this.getGuest(guestEmail)
     const plusOne = await this.getGuest(plusOneEmail)
 
-    if (guest.plusOneId) {
+    if (
+      guest.plusOneId &&
+      (guest.plusOneId as WeddingGuest & Document)._id.toString() !==
+        plusOne._id.toString()
+    ) {
       throw "Guest already has a plus one"
     }
 
-    if (plusOne.plusOneId) {
+    if (
+      plusOne.plusOneId &&
+      (plusOne.plusOneId as WeddingGuest & Document)._id.toString() !==
+        guest._id.toString()
+    ) {
       throw "Plus one already has a plus one"
     }
 

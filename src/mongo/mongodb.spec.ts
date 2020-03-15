@@ -90,6 +90,31 @@ describe("mongoDb tests", () => {
       expect(finalDummyGuest.plusOneId).toEqual(finalPlusOne._id)
       expect(finalPlusOne.plusOneId).toEqual(finalDummyGuest._id)
     })
+
+    it("should be happy if guest and plus one already linked", async () => {
+      const dummyGuest = makeDummyGuest()
+      const plusOneGuest = makeDummyGuest({
+        name: "Plus one name",
+        email: "plusOne@dummy.com",
+      })
+
+      const initialDummyGuest = await Guest.create(dummyGuest)
+      const initialPlusOneGuest = await Guest.create(plusOneGuest)
+
+      initialDummyGuest.plusOneId = initialPlusOneGuest._id
+      initialPlusOneGuest.plusOneId = initialDummyGuest._id
+
+      await initialDummyGuest.save()
+      await initialPlusOneGuest.save()
+
+      await MongoDb.linkPlusOne(dummyGuest.email, plusOneGuest.email)
+
+      const finalDummyGuest = await Guest.findOne({ email: dummyGuest.email })
+      const finalPlusOne = await Guest.findOne({ email: plusOneGuest.email })
+
+      expect(finalDummyGuest.plusOneId).toEqual(finalPlusOne._id)
+      expect(finalPlusOne.plusOneId).toEqual(finalDummyGuest._id)
+    })
   })
 
   const makeDummyGuest = ({
