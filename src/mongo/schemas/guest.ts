@@ -20,7 +20,7 @@ export interface WeddingGuest {
   isPlusOneEligible: boolean
 
   // Mongo ID of Guest's plus-one
-  plusOneId: WeddingGuest | string
+  plusOneId: WeddingGuest | mongoose.Types.ObjectId
 
   // Guest email - used as UUID outside of Mongo ID
   email: string

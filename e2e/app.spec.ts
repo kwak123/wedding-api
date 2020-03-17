@@ -111,6 +111,24 @@ describe("app", () => {
     })
   })
 
+  describe("rsvp", () => {
+    it("should set isAttending of guest", async () => {
+      const isAttending = true
+      await dbHelper.addGuest(mockGuest)
+
+      const res = await request(app)
+        .put(makeGuestUrl("rsvp"))
+        .send({
+          guestEmail: mockGuest.email,
+          isAttending,
+        })
+
+      expect(res.status).toBe(200)
+      expect(res.body.email).toBe(mockGuest.email)
+      expect(res.body.isAttending).toBe(isAttending)
+    })
+  })
+
   const makeGuestUrl = (endpoint: string) => `/api/guest/${endpoint}`
 
   const makeDummyGuest = ({ name, email }: { name: string; email: string }) =>

@@ -2,6 +2,7 @@ import { Router } from "express"
 
 import { MongoDbHelper } from "../mongo"
 import { handleError } from "../utils/middleware"
+import { RsvpBody } from "./types/guest"
 
 import * as GuestRouterTypes from "./types/guest"
 
@@ -33,14 +34,21 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
   })
 
   // // Set the guest details
-  // guestRouter.put("/rsvp", async (req, res) => {
-  //   const { guestEmail } = req.body
-  //   try {
-  //     return res.send(guest)
-  //   } catch (e) {
-  //     handleError(e, res, 400)
-  //   }
-  // })
+  guestRouter.put("/rsvp", async (req, res) => {
+    // FIXME: skwak 3/16/2020 this is a dev convenience
+    const body = req.body as RsvpBody
+    const { guestEmail, isAttending, plusOneEmail } = body
+    try {
+      const confirmedGuest = await mongoDb.setRsvp(
+        guestEmail,
+        isAttending,
+        plusOneEmail
+      )
+      return res.send(confirmedGuest)
+    } catch (e) {
+      handleError(e, res, 400)
+    }
+  })
 
   guestRouter.post("/confirm/toggle", async (req, res) => {
     const { guestEmail } = req.body
