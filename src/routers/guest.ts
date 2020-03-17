@@ -32,6 +32,16 @@ const buildGuestRouter = (mongoDb: MongoDbHelper) => {
     }
   })
 
+  // // Set the guest details
+  // guestRouter.put("/rsvp", async (req, res) => {
+  //   const { guestEmail } = req.body
+  //   try {
+  //     return res.send(guest)
+  //   } catch (e) {
+  //     handleError(e, res, 400)
+  //   }
+  // })
+
   guestRouter.post("/confirm/toggle", async (req, res) => {
     const { guestEmail } = req.body
 

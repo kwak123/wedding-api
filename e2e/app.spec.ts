@@ -36,11 +36,6 @@ describe("app", () => {
     return
   })
 
-  afterAll(async () => {
-    await dbHelper.closeConnection()
-    return
-  })
-
   describe("guest", () => {
     describe("add", () => {
       it("should successfully add a guest", async () => {
@@ -95,16 +90,21 @@ describe("app", () => {
       expect(res.body.plusOneId).not.toBeNull()
     })
 
-    it("should not link guests if already linked", async () => {
+    it("should not link guests if already linked to a different guest", async () => {
+      const wrongGuest = makeDummyGuest({
+        name: "wrongGuest",
+        email: "wrongGuest@test.com ",
+      })
       await dbHelper.addGuest(mockGuest)
       await dbHelper.addGuest(linkedGuest)
+      await dbHelper.addGuest(wrongGuest)
       await dbHelper.linkGuest(mockGuest.email, linkedGuest.email)
 
       const res = await request(app)
         .post(makeGuestUrl("link"))
         .send({
           guestEmail: mockEmail,
-          plusOneEmail: linkedEmail,
+          plusOneEmail: wrongGuest.email,
         })
 
       expect(res.status).toBe(400)
