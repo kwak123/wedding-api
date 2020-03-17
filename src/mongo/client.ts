@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import mongoose, { Document } from "mongoose"
 
 import guestSchema, { WeddingGuest } from "./schemas/guest"
