@@ -33,6 +33,7 @@ class DbTestHelper {
     const firstGuest = await this.getGuest(emailOne)
     const secondGuest = await this.getGuest(emailTwo)
     firstGuest.plusOneId = secondGuest._id
+    secondGuest.plusOneId = firstGuest._id
     return firstGuest.save()
   }
 

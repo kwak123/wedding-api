@@ -90,6 +90,7 @@ class MongoDb implements MongoDbHelper {
     guest.isAttending = isAttending
 
     if (plusOneEmail) {
+      console.log("foundPlusOne", plusOneEmail, isAttending)
       const plusOne = await this.getOrAddGuest(plusOneEmail)
       await this.linkPlusOne(guestEmail, plusOneEmail)
       plusOne.isAttending = isAttending
@@ -97,7 +98,7 @@ class MongoDb implements MongoDbHelper {
     }
 
     await guest.save()
-    return guest
+    return this.getGuest(guestEmail)
   }
 
   linkPlusOne = async (guestEmail: string, plusOneEmail: string) => {

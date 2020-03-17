@@ -127,6 +127,29 @@ describe("app", () => {
       expect(res.body.email).toBe(mockGuest.email)
       expect(res.body.isAttending).toBe(isAttending)
     })
+
+    it("should set isAttending of linked guest, if provided", async () => {
+      const isAttending = true
+      await dbHelper.addGuest(mockGuest)
+      await dbHelper.addGuest(linkedGuest)
+      await dbHelper.linkGuest(mockGuest.email, linkedGuest.email)
+
+      const res = await request(app)
+        .put(makeGuestUrl("rsvp"))
+        .send({
+          guestEmail: mockGuest.email,
+          plusOneEmail: linkedGuest.email,
+          isAttending,
+        })
+
+      expect(res.status).toBe(200)
+      expect(res.body.email).toBe(mockGuest.email)
+      expect(res.body.isAttending).toBe(isAttending)
+
+      // plusOneId is populated as plusOne
+      expect(res.body.plusOneId.email).toBe(linkedGuest.email)
+      expect(res.body.plusOneId.isAttending).toBe(isAttending)
+    })
   })
 
   const makeGuestUrl = (endpoint: string) => `/api/guest/${endpoint}`
