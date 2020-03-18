@@ -94,7 +94,7 @@ let instance = null
 
 export default props => {
   if (instance === null) {
-    instance = new GuestContextProvider(props)
+    instance = <GuestContextProvider {...props} />
   }
   return instance
 }

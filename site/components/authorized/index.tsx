@@ -33,7 +33,6 @@ const Authorized: React.FC = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = React.useState(false)
 
   React.useEffect(() => {
-    console.log(process.env.NODE_ENV)
     if (process.env.NODE_ENV === "development") {
       setIsAuthorized(true)
     }

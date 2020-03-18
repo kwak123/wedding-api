@@ -163,7 +163,6 @@ const GuestList = () => {
       <GuestContext.Consumer>
         {props => {
           const { guestList } = props
-          console.log(props)
 
           return (
             <div className="guest-list__container">
