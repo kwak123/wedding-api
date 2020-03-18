@@ -54,6 +54,7 @@
     "test": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest src/",
     "e2e": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test jest e2e/ --runInBand",
     "test-all": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test jest ./ --runInBand",
-    "test-ui": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test UI_PASSWORD=asdf jest ./site ---env=jsdom"
+    "test-ui": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test UI_PASSWORD=asdf jest ./site ---env=jsdom",
+    "cypress-open": "cypress open"
   }
 }
