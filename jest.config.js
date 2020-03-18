@@ -6,4 +6,7 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
+  moduleNameMapper: {
+    "\\.(css|scss)$": "<rootDir>/site/__mocks__/styleMock.ts",
+  },
 }

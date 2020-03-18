@@ -19,7 +19,7 @@ export interface Guest {
   isPlusOneEligible: boolean
 
   // Mongo ID of Guest's plus-one
-  plusOneId: Guest | null
+  plusOneId: Guest | string
 
   // Guest email - used as UUID outside of Mongo ID
   email: string
@@ -35,7 +35,7 @@ interface IGuestContext {
   refreshGuestList: () => any
 }
 
-const defaultState = {
+const defaultState: IGuestContext = {
   guestList: [],
   modifyGuest: () => {},
   setGuestList: () => {},
@@ -45,11 +45,11 @@ const defaultState = {
 export const GuestContext = React.createContext<IGuestContext>(defaultState)
 
 class GuestContextProvider extends React.Component {
-  state = {
+  state: { guestList: Guest[] } = {
     guestList: [],
   }
 
-  changeGuestList = guestList => this.setState({ guestList })
+  changeGuestList = (guestList: Guest[]) => this.setState({ guestList })
 
   componentDidMount() {
     this.refreshGuestList()
@@ -90,9 +90,9 @@ class GuestContextProvider extends React.Component {
     )
   }
 }
-let instance = null
+let instance: any = null
 
-export default props => {
+export default (props: any) => {
   if (instance === null) {
     instance = <GuestContextProvider {...props} />
   }

@@ -31,7 +31,13 @@ const GuestConfirmed = ({ confirmed }: { confirmed: boolean }) => (
   </p>
 )
 
-const PlusOneDialog = ({ open, handleClose }) => {
+const PlusOneDialog = ({
+  open,
+  handleClose,
+}: {
+  open: boolean
+  handleClose: (email: string) => void
+}) => {
   const [email, setEmail] = React.useState("")
   const onLink = () => handleClose(email)
   const onCancel = () => handleClose(null)
@@ -62,7 +68,7 @@ const PlusOneDialog = ({ open, handleClose }) => {
   )
 }
 
-const GuestActions = ({ email }) => {
+const GuestActions = ({ email }: { email: string }) => {
   const { refreshGuestList } = React.useContext(GuestContext)
   const [showDialog, setShowDialog] = React.useState(false)
   const [showErrorToast, setShowErrorToast] = React.useState(false)
@@ -72,10 +78,10 @@ const GuestActions = ({ email }) => {
       guestEmail: email,
     })
 
-  const handleLinkEmail = plusOneEmail => {
+  const handleLinkEmail = async (plusOneEmail: string) => {
     if (!plusOneEmail) {
       setShowDialog(false)
-      return Promise.resolve()
+      return
     }
 
     return Axios.post("/api/guest/link", {
@@ -98,7 +104,7 @@ const GuestActions = ({ email }) => {
   const handleTogglingConfirm = () =>
     dispatchToggleConfirm().then(() => refreshGuestList())
 
-  const handleLink = plusOneEmail =>
+  const handleLink = (plusOneEmail: string) =>
     handleLinkEmail(plusOneEmail).then(() => refreshGuestList())
 
   return (
@@ -108,7 +114,7 @@ const GuestActions = ({ email }) => {
       <Button onClick={handleTogglingConfirm} text={"Confirm/Unconfirm"} />
       <PlusOneDialog
         open={showDialog}
-        handleClose={plusOneEmail => handleLink(plusOneEmail)}
+        handleClose={(plusOneEmail: string) => handleLink(plusOneEmail)}
       />
       <Snackbar
         open={showErrorToast}
@@ -137,7 +143,7 @@ const GuestCard = ({ guest }: GuestProps) => {
         <p className="guest-name">{guest.name}</p>
         <p className="guest-email">Email: {guest.email}</p>
         <p className="guest-plus-one">
-          Plus One: {guest.plusOneId && guest.plusOneId.name}
+          Plus One: {guest.plusOneId && (guest.plusOneId as Guest).name}
         </p>
         <GuestConfirmed confirmed={guest.isConfirmed} />
       </div>
