@@ -5,9 +5,9 @@ import guestSchema, { WeddingGuest } from "./schemas/guest"
 
 let dbName = "dev"
 
-if (process.env.NODE_ENV === "PROD") {
+if (process.env.NODE_ENV === "prod") {
   dbName = "kwakanalia"
-} else if (process.env.NODE_ENV === "TEST") {
+} else if (process.env.NODE_ENV === "test") {
   dbName = "test"
 }
 

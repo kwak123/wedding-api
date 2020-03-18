@@ -8,6 +8,10 @@ describe("mongoDb tests", () => {
     await Guest.deleteMany({})
   })
 
+  afterAll(async () => {
+    await Guest.deleteMany({})
+  })
+
   describe("addGuest", () => {
     it("should add a guest", async () => {
       const dummyGuest = makeDummyGuest()
