@@ -14,7 +14,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => (
     onSubmit={values => {
       onSubmit(values.password)
     }}
-    data-testid={AUTH_FORM_ID}
   >
     {(props: FormikProps<any>) => (
       <Form>
@@ -35,11 +34,11 @@ const Authorized: React.FC = ({ children }) => {
   return (
     <>
       {isAuthorized ? (
-        <React.Fragment data-testid={AUTH_CHILDREN_ID}>
-          {children}
-        </React.Fragment>
+        <div data-testid={AUTH_CHILDREN_ID}>{children}</div>
       ) : (
-        <AuthForm onSubmit={handleSubmit} />
+        <div data-testid={AUTH_FORM_ID}>
+          <AuthForm onSubmit={handleSubmit} />
+        </div>
       )}
     </>
   )
