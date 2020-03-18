@@ -50,10 +50,10 @@
     "build": "tsc",
     "build-ui": "parcel build public/index.html",
     "watch-ui": "parcel public/index.html",
-    "test": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest src/",
-    "e2e": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test jest e2e/ --runInBand",
-    "test-all": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test jest ./ --runInBand",
-    "test-ui": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test UI_PASSWORD=asdf jest ./site ---env=jsdom",
-    "cypress-open": "cypress open"
+    "test:unit": "MONGO_URL=\"mongodb://localhost:27017\" NODE_ENV=test jest src/",
+    "test:e2e": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test jest e2e/ --runInBand",
+    "test:ui": "MONGO_URL=\"mongodb://localhost:27017\" REDIS_URL=\"redis://127.0.0.1:6379\" NODE_ENV=test-ui UI_PASSWORD=asdf jest ./site ---env=jsdom",
+    "test:server": "yarn test:unit && yarn test:e2e",
+    "test": "yarn test:ui && yarn test:server"
   }
 }
