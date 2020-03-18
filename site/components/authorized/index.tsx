@@ -18,7 +18,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => (
     {(props: FormikProps<any>) => (
       <Form data-testid={AUTH_FORM_ID}>
         <ErrorMessage name="error" />
-        <Field name="password" as="input" type="text" placeholder="Password" />
+        <Field
+          name="password"
+          as="input"
+          type="password"
+          placeholder="Password"
+        />
       </Form>
     )}
   </Formik>
@@ -26,6 +31,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => (
 
 const Authorized: React.FC = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = React.useState(false)
+
+  React.useEffect(() => {
+    console.log(process.env.NODE_ENV)
+    if (process.env.NODE_ENV === "development") {
+      setIsAuthorized(true)
+    }
+  }, [])
+
   const handleSubmit = (val: string) => {
     if (val === process.env.UI_PASSWORD) {
       setIsAuthorized(true)
