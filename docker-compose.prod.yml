@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  api:
+    command: bash -c "npm build && npm run start"
+    environment:
+      NODE_ENV: prod
