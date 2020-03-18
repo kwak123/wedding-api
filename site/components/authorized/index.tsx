@@ -2,7 +2,7 @@ import * as React from "react"
 import { Formik, Field, ErrorMessage, FormikProps, Form } from "formik"
 
 interface AuthFormProps {
-  onSubmit: (string) => void
+  onSubmit: (val: string) => void
 }
 
 export const AUTH_FORM_ID = "auth-form"
