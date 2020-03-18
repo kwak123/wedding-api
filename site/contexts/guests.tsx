@@ -19,7 +19,7 @@ export interface Guest {
   isPlusOneEligible: boolean
 
   // Mongo ID of Guest's plus-one
-  plusOneId: string
+  plusOneId: Guest | null
 
   // Guest email - used as UUID outside of Mongo ID
   email: string
