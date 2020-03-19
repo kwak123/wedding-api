@@ -1,6 +1,6 @@
 import { Guest } from "../contexts/guests"
 
-const firstLinkedGuest: Guest = {
+export const firstLinkedGuest: Guest = {
   hasReceivedRsvp: false,
   isConfirmed: false,
   isAttending: false,
@@ -22,7 +22,7 @@ const firstLinkedGuest: Guest = {
   email: "elysia.hwang@gmail.com",
 }
 
-const secondLinkedGuest: Guest = {
+export const secondLinkedGuest: Guest = {
   hasReceivedRsvp: false,
   isConfirmed: false,
   isAttending: false,
@@ -44,7 +44,7 @@ const secondLinkedGuest: Guest = {
   email: "samuel.kwak@gmail.com",
 }
 
-const noPlusOneGuest: Guest = {
+export const noPlusOneGuest: Guest = {
   hasReceivedRsvp: false,
   isConfirmed: false,
   isAttending: false,
@@ -56,7 +56,7 @@ const noPlusOneGuest: Guest = {
   email: "noPlusOne@gmail.com",
 }
 
-const plusOneNotSetGuest: Guest = {
+export const plusOneNotSetGuest: Guest = {
   hasReceivedRsvp: false,
   isConfirmed: false,
   isAttending: true,
