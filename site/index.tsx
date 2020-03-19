@@ -8,14 +8,16 @@ import { useFetch } from "./utils/index"
 
 import GuestList from "./components/guestList"
 
+import "./index.scss"
+
 const App = () => {
   return (
-    <div>
+    <main className="app-container">
       <Authorized>
-        <h1>Guests</h1>
+        <h1 className="app-header">Guests</h1>
         <GuestList />
       </Authorized>
-    </div>
+    </main>
   )
 }
 
