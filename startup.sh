@@ -5,11 +5,11 @@ options=("Dev" "Prod")
 select opt in "${options[@]}"
 do
   case $opt in
-    "No")
+    "Dev")
       docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
       break
       ;;
-    "Yes")
+    "Prod")
       docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
       break
       ;;
