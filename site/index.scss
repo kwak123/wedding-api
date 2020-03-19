@@ -1,3 +1,8 @@
+body {
+  background-color: #3a99fa;
+  font-family: Inter, sans-serif;
+}
+
 .app-container {
   display: flex;
   flex-flow: column;
@@ -6,4 +11,5 @@
 
 .app-header {
   text-align: center;
+  color: white;
 }

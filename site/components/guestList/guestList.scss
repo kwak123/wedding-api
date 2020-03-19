@@ -1,14 +1,22 @@
+.guest-list__container {
+  width: 1200px;
+}
+
 .guest-card__container {
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
   margin-bottom: 16px;
-  max-width: 900px;
-  // box-shadow: #dedede 1px 1px 4px 2px;
+  transition: transform 0.2s !important;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 }
 
 .guest-name {
   font-size: 24px;
+  margin-bottom: 8px;
 }
 
 .guest-confirmed {

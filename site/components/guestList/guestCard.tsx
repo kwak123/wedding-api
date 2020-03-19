@@ -140,8 +140,8 @@ const GuestCard = ({ guest }: GuestProps) => {
         className="guest-details__container"
         data-testid={`guest-${guest.name}`}
       >
-        <p className="guest-name">{guest.name}</p>
-        <p className="guest-email">Email: {guest.email}</p>
+        <h2 className="guest-name">{guest.name}</h2>
+        <p className="guest-email">{guest.email}</p>
         <p className="guest-plus-one">
           Plus One: {guest.plusOneId && (guest.plusOneId as Guest).name}
         </p>
