@@ -4,9 +4,11 @@ import mongoose, { Document } from "mongoose"
 import guestSchema, { WeddingGuest } from "./schemas/guest"
 
 let dbName = "dev"
+let ssl = false
 
 if (process.env.NODE_ENV === "prod") {
   dbName = "kwakanalia"
+  ssl = true
 } else if (process.env.NODE_ENV === "test") {
   dbName = "test"
 }
@@ -16,7 +18,7 @@ mongoose
     useNewUrlParser: true,
     user: process.env.MONGO_USER,
     pass: process.env.MONGO_PASSWORD,
-    ssl: true,
+    ssl,
     dbName,
   })
   .then(() => console.log("Connected to Mongo"))
