@@ -16,6 +16,7 @@ mongoose
     useNewUrlParser: true,
     user: process.env.MONGO_USER,
     pass: process.env.MONGO_PASSWORD,
+    ssl: true,
     dbName,
   })
   .then(() => console.log("Connected to Mongo"))

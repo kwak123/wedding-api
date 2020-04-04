@@ -4,3 +4,16 @@ services:
   api:
     environment:
       NODE_ENV: dev
+      MONGO_URL: ${DEV_MONGO_URL}
+      MONGO_USER: ${DEV_MONGO_USER}
+      MONGO_PASSWORD: ${DEV_MONGO_PASSWORD}
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=${DEV_MONGO_DB}
+      - MONGO_INITDB_ROOT_USERNAME=${DEV_MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DEV_MONGO_ROOT_PASSWORD}
+    ports:
+      - "27017-27019:27017-27019"

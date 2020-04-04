@@ -3,30 +3,18 @@ version: "3"
 services:
   api:
     build: .
-    command: bash -c "npm build && npm run dev"
+    command: bash -c "yarn build && yarn dev"
     # env_file: ./slack/.env
     ports:
       - "3001:3001"
     volumes:
       - ./:/app
     environment:
-      MONGO_URL: mongodb://mongo:27017
-      MONGO_USER: ${MONGO_USER}
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
       MG_API_KEY: "${MAILGUN_API_KEY}"
       REDIS_URL: "redis://cache"
       UI_PASSWORD: ${UI_PASSWORD}
     depends_on:
-      - mongo
       - redis
-  mongo:
-    image: mongo
-    environment:
-      - MONGO_INITDB_DATABASE=${MONGO_DB}
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
-    ports:
-      - "27017-27019:27017-27019"
   redis:
     image: redis
     container_name: cache
