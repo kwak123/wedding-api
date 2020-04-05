@@ -34,19 +34,25 @@
 }
 
 .guest-plus-one__container {
+  align-self: flex-start;
+
+  .guest-name::before {
+    content: "+1: ";
+    margin-left: -2.6rem;
+  }
 }
 
 .guest-confirmed {
   justify-self: flex-end;
   align-self: center;
+}
 
-  &.confirmed {
-    color: green;
-  }
+.yes {
+  color: green;
+}
 
-  &.not-confirmed {
-    color: red;
-  }
+.no {
+  color: red;
 }
 
 .guest-actions__container {

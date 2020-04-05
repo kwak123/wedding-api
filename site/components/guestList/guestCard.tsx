@@ -25,11 +25,33 @@ interface GuestProps {
   guest: Guest
 }
 
-const GuestConfirmed = ({ confirmed }: { confirmed: boolean }) => (
-  <p className={`guest-confirmed ${confirmed ? "confirmed" : "not-confirmed"}`}>
-    {confirmed ? "Confirmed" : "Not confirmed"}
-  </p>
-)
+interface GuestAttendingProps {
+  confirmed: boolean
+  attending: boolean
+}
+const GuestAttending: React.FC<GuestAttendingProps> = ({
+  attending,
+  confirmed,
+}) => {
+  const classModifier = attending && confirmed ? "yes" : "no"
+  let text: string
+
+  if (confirmed) {
+    if (attending) {
+      text = "Attending"
+    } else {
+      text = "Not attending"
+    }
+  } else {
+    if (attending) {
+      // This branch is a safety net for bad state, you shouldn't be able to be confirmed without also knowing attendance
+      text = "Confirmed, attendance unknown"
+    }
+    text = "Not confirmed"
+  }
+
+  return <p className={`guest-confirmed ${classModifier}`}>{text}</p>
+}
 
 const PlusOneDialog = ({
   open,
@@ -158,13 +180,16 @@ const GuestCard = ({ guest }: GuestProps) => {
         </div>
         <div className="guest-plus-one__container">
           <p className="guest-name">
-            +1: {(guest.plusOneId && (guest.plusOneId as Guest).name) || "None"}
+            {(guest.plusOneId && (guest.plusOneId as Guest).name) || "None"}
           </p>
           <p className="guest-email">
             {guest.plusOneId && (guest.plusOneId as Guest).email}
           </p>
         </div>
-        <GuestConfirmed confirmed={guest.isConfirmed} />
+        <GuestAttending
+          confirmed={guest.isConfirmed}
+          attending={guest.isAttending}
+        />
       </div>
       {isExpanded && (
         <div className="guest-details__container">
