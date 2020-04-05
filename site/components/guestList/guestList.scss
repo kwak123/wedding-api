@@ -3,28 +3,50 @@
 }
 
 .guest-card__container {
-  display: flex;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 16px;
   margin-bottom: 16px;
   transition: transform 0.2s !important;
 
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
+  }
+}
+
+.guest-summary__container {
+  display: grid;
+  justify-content: space-between;
+  align-items: flex-end;
+  grid-template-columns: 1fr 1fr 2fr;
+
+  p {
+    margin: 0;
   }
 }
 
 .guest-name {
   font-size: 24px;
-  margin-bottom: 8px;
+  margin: 0;
+}
+
+.guest-email {
+  font-style: italic;
+}
+
+.guest-plus-one__container {
 }
 
 .guest-confirmed {
-  color: green;
-}
+  justify-self: flex-end;
+  align-self: center;
 
-.guest-not-confirmed {
-  color: red;
+  &.confirmed {
+    color: green;
+  }
+
+  &.not-confirmed {
+    color: red;
+  }
 }
 
 .guest-actions__container {

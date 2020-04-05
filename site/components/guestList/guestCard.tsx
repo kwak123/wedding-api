@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState, useContext } from "react"
 
 import { GuestContext } from "../../contexts/guests"
 import Button from "../common/Button"
@@ -26,7 +26,7 @@ interface GuestProps {
 }
 
 const GuestConfirmed = ({ confirmed }: { confirmed: boolean }) => (
-  <p className={confirmed ? "guest-confirmed" : "guest-not-confirmed"}>
+  <p className={`guest-confirmed ${confirmed ? "confirmed" : "not-confirmed"}`}>
     {confirmed ? "Confirmed" : "Not confirmed"}
   </p>
 )
@@ -69,9 +69,9 @@ const PlusOneDialog = ({
 }
 
 const GuestActions = ({ email }: { email: string }) => {
-  const { refreshGuestList } = React.useContext(GuestContext)
-  const [showDialog, setShowDialog] = React.useState(false)
-  const [showErrorToast, setShowErrorToast] = React.useState(false)
+  const { refreshGuestList } = useContext(GuestContext)
+  const [showDialog, setShowDialog] = useState(false)
+  const [showErrorToast, setShowErrorToast] = useState(false)
 
   const dispatchToggleConfirm = () =>
     Axios.post("/api/guest/confirm/toggle", {
@@ -141,30 +141,46 @@ const GuestActions = ({ email }: { email: string }) => {
 }
 
 const GuestCard = ({ guest }: GuestProps) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const handleExpand = () => setIsExpanded(!isExpanded)
+
   return (
     <Card className="guest-card__container" raised={true}>
       <div
-        className="guest-details__container"
+        className="guest-summary__container"
         data-testid={`guest-${guest.name}`}
+        onClick={handleExpand}
       >
-        <h2 className="guest-name">{guest.name}</h2>
-        <p className="guest-email">{guest.email}</p>
-        <p className="guest-plus-one">
-          Plus One: {guest.plusOneId && (guest.plusOneId as Guest).name}
-        </p>
+        <div className="guest_summary">
+          <h2 className="guest-name">{guest.name}</h2>
+          <p className="guest-email">{guest.email}</p>
+        </div>
+        <div className="guest-plus-one__container">
+          <p className="guest-name">
+            +1: {(guest.plusOneId && (guest.plusOneId as Guest).name) || "None"}
+          </p>
+          <p className="guest-email">
+            {guest.plusOneId && (guest.plusOneId as Guest).email}
+          </p>
+        </div>
         <GuestConfirmed confirmed={guest.isConfirmed} />
       </div>
-      <div className="guest-restrictions__container">
-        <h3 className="guest-restrictions__header">Dietary Restrictions</h3>
-        <ul>
-          {guest.dietaryRestrictions.map((restriction, i) => (
-            <li key={restriction + i}>
-              <p>{restriction}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <GuestActions email={guest.email} />
+      {isExpanded && (
+        <div className="guest-details__container">
+          <div className="guest-restrictions__container">
+            <h3 className="guest-restrictions__header">Dietary Restrictions</h3>
+            <ul>
+              {guest.dietaryRestrictions.map((restriction, i) => (
+                <li key={restriction + i}>
+                  <p>{restriction}</p>
+                </li>
+              ))}
+            </ul>
+            <GuestActions email={guest.email} />
+          </div>
+        </div>
+      )}
     </Card>
   )
 }
