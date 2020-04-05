@@ -12,8 +12,10 @@ export interface EmailOptions {
   to: string
   // Email subject
   subject: string
-  // Email body
-  body: string
+  // only permitted templates
+  template: string
+  // Mailgun Vars in JSON form
+  mailgunVars?: string
 }
 
 const MailgunConstants = {
@@ -22,6 +24,8 @@ const MailgunConstants = {
   SUBJECT: "subject",
   TEXT: "text",
   HTML: "html",
+  TEMPLATE: "template",
+  MAILGUN_VARS: "X-Mailgun-Variables",
 }
 
 class Mailgun {
@@ -52,10 +56,19 @@ class Mailgun {
     formData.append(MailgunConstants.FROM, this.from)
     formData.append(MailgunConstants.SUBJECT, emailOptions.subject)
     // formData.append(MailgunConstants.TEXT, emailOptions.body)
-    formData.append(MailgunConstants.HTML, this.formatEmail(emailOptions.body))
+    // formData.append(MailgunConstants.HTML, this.formatEmail(emailOptions.body))
+    formData.append(MailgunConstants.TEMPLATE, emailOptions.template)
+
+    const headers = {
+      ...formData.getHeaders(),
+    }
+
+    if (emailOptions.mailgunVars) {
+      headers[MailgunConstants.MAILGUN_VARS] = emailOptions.mailgunVars
+    }
 
     return this.apiClient.post(mailGunSendEmailEndpoint, formData, {
-      headers: formData.getHeaders(),
+      headers,
     })
   }
 

@@ -2,6 +2,7 @@ version: "3"
 
 services:
   api:
+    command: bash -c "yarn build && yarn dev"
     environment:
       NODE_ENV: dev
       MONGO_URL: ${DEV_MONGO_URL}

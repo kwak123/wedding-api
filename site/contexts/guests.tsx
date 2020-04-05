@@ -90,11 +90,13 @@ class GuestContextProvider extends React.Component {
     )
   }
 }
-let instance: any = null
+// let instance: any = null
 
-export default (props: any) => {
-  if (instance === null) {
-    instance = <GuestContextProvider {...props} />
-  }
-  return instance
-}
+// export default (props: any) => {
+//   if (instance === null) {
+//     instance = <GuestContextProvider {...props} />
+//   }
+//   return instance
+// }
+
+export default GuestContextProvider

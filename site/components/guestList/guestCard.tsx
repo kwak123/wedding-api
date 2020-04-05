@@ -107,9 +107,16 @@ const GuestActions = ({ email }: { email: string }) => {
   const handleLink = (plusOneEmail: string) =>
     handleLinkEmail(plusOneEmail).then(() => refreshGuestList())
 
+  const sendRsvp = () =>
+    Axios.post("/api/email/test", {
+      to: "Samuel Kwak <kwak123@gmail.com>",
+      subject: "You're invited!",
+      template: "invitation",
+    }).then(refreshGuestList)
+
   return (
     <div className="guest-actions__container">
-      <Button onClick={() => {}} text={"Send RSVP"} />
+      <Button onClick={sendRsvp} text={"Send RSVP"} />
       <Button onClick={() => setShowDialog(true)} text={"Attach plus-one"} />
       <Button onClick={handleTogglingConfirm} text={"Confirm/Unconfirm"} />
       <PlusOneDialog
