@@ -109,7 +109,7 @@ const GuestActions = ({ email }: { email: string }) => {
 
   const sendRsvp = () =>
     Axios.post("/api/email/test", {
-      to: "Samuel Kwak <kwak123@gmail.com>",
+      to: email,
       subject: "You're invited!",
       template: "invitation",
     }).then(refreshGuestList)
