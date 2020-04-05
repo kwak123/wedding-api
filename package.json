@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon dist/index.js",
+    "dev": "nodemon dist/index.js --ignore './site' --ignore './dist'",
     "build": "tsc",
     "build-ui": "parcel build public/index.html",
     "watch-ui": "parcel public/index.html",
