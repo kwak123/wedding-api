@@ -29,7 +29,7 @@ const MailgunConstants = {
 }
 
 class Mailgun {
-  private from = "Samlysia <samlysia@kwakanalia.wedding>"
+  private from = "Samlysia <samlysia@mg.kwakanalia.wedding>"
   private apiKey: string
   apiClient: AxiosInstance
 
