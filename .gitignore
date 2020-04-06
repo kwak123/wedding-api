@@ -6,3 +6,4 @@ data
 .env
 .cache
 /coverage
+/public
