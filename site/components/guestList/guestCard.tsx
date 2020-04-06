@@ -90,7 +90,15 @@ const PlusOneDialog = ({
   )
 }
 
-const GuestActions = ({ email }: { email: string }) => {
+const GuestActions = ({
+  email,
+  plusOneEmail,
+  isAttending,
+}: {
+  email: string
+  plusOneEmail: string
+  isAttending: boolean
+}) => {
   const { refreshGuestList } = useContext(GuestContext)
   const [showDialog, setShowDialog] = useState(false)
   const [showErrorToast, setShowErrorToast] = useState(false)
@@ -126,6 +134,13 @@ const GuestActions = ({ email }: { email: string }) => {
   const handleTogglingConfirm = () =>
     dispatchToggleConfirm().then(() => refreshGuestList())
 
+  const handleTogglingAttending = () =>
+    Axios.put("/api/guest/rsvp", {
+      guestEmail: email,
+      plusOneEmail: plusOneEmail,
+      isAttending: !isAttending,
+    }).then(refreshGuestList)
+
   const handleLink = (plusOneEmail: string) =>
     handleLinkEmail(plusOneEmail).then(() => refreshGuestList())
 
@@ -141,6 +156,10 @@ const GuestActions = ({ email }: { email: string }) => {
       <Button onClick={sendRsvp} text={"Send RSVP"} />
       <Button onClick={() => setShowDialog(true)} text={"Attach plus-one"} />
       <Button onClick={handleTogglingConfirm} text={"Confirm/Unconfirm"} />
+      <Button
+        onClick={handleTogglingAttending}
+        text={"Attending/Not attending"}
+      />
       <PlusOneDialog
         open={showDialog}
         handleClose={(plusOneEmail: string) => handleLink(plusOneEmail)}
@@ -202,7 +221,13 @@ const GuestCard = ({ guest }: GuestProps) => {
                 </li>
               ))}
             </ul>
-            <GuestActions email={guest.email} />
+            <GuestActions
+              email={guest.email}
+              plusOneEmail={
+                guest.plusOneId ? (guest.plusOneId as Guest).email : ""
+              }
+              isAttending={guest.isAttending}
+            />
           </div>
         </div>
       )}
